@@ -1,0 +1,12 @@
+stm32f4xx_pwr.c:127:6:PWR_DeInit	8	static
+stm32f4xx_pwr.c:142:6:PWR_BackupAccessCmd	16	static
+stm32f4xx_pwr.c:190:6:PWR_PVDLevelConfig	24	static
+stm32f4xx_pwr.c:215:6:PWR_PVDCmd	16	static
+stm32f4xx_pwr.c:249:6:PWR_WakeUpPinCmd	16	static
+stm32f4xx_pwr.c:310:6:PWR_BackupRegulatorCmd	16	static
+stm32f4xx_pwr.c:332:6:PWR_MainRegulatorModeConfig	24	static
+stm32f4xx_pwr.c:378:6:PWR_FlashPowerDownCmd	16	static
+stm32f4xx_pwr.c:522:6:PWR_EnterSTOPMode	24	static
+stm32f4xx_pwr.c:570:6:PWR_EnterSTANDBYMode	4	static
+stm32f4xx_pwr.c:627:12:PWR_GetFlagStatus	24	static
+stm32f4xx_pwr.c:654:6:PWR_ClearFlag	16	static

@@ -1,0 +1,7 @@
+core_cm4.h:1535:22:NVIC_SetPriority	16	static
+core_cm4.h:1662:26:SysTick_Config	16	static
+main.c:8:6:delay_ms	16	static
+main.c:15:6:GPIO_Config	8	static
+main.c:28:5:main	8	static
+main.c:44:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:50:10:EVAL_AUDIO_GetSampleCallBack	4	static

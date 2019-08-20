@@ -1,0 +1,6 @@
+stm32f4xx_syscfg.c:91:6:SYSCFG_DeInit	8	static
+stm32f4xx_syscfg.c:107:6:SYSCFG_MemoryRemapConfig	16	static
+stm32f4xx_syscfg.c:128:6:SYSCFG_EXTILineConfig	24	static
+stm32f4xx_syscfg.c:149:6:SYSCFG_ETH_MediaInterfaceConfig	16	static
+stm32f4xx_syscfg.c:166:6:SYSCFG_CompensationCellCmd	16	static
+stm32f4xx_syscfg.c:179:12:SYSCFG_GetCompensationCellStatus	16	static

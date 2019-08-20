@@ -1,0 +1,6 @@
+main.c:6:6:delay	16	static
+main.c:14:6:GPIO_Config	8	static
+main.c:27:6:DAC2_Config	8	static
+main.c:40:5:main	8	static
+main.c:55:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:61:10:EVAL_AUDIO_GetSampleCallBack	4	static
