@@ -1,0 +1,10 @@
+main.c:72:6:HAL_I2C_MemRxCpltCallback	16	static
+main.c:87:6:HAL_GPIO_EXTI_Callback	24	static
+main.c:111:5:main	16	static
+main.c:159:6:SystemClock_Config	88	static
+main.c:202:13:MX_I2C1_Init	8	static
+main.c:234:13:MX_DMA_Init	16	static
+main.c:252:13:MX_GPIO_Init	40	static
+main.c:275:9:BCD2DEC	16	static
+main.c:280:9:DEC2BCD	16	static
+main.c:291:6:Error_Handler	4	static
