@@ -1,0 +1,9 @@
+main.c:6:6:RCC_Config	4	static
+main.c:23:6:FLASH_UnLock	4	static
+main.c:38:6:FLASH_Locker	4	static
+main.c:47:6:FLASH_Erase	4	static
+main.c:75:6:FLASH_Write	16	static
+main.c:102:10:FLASH_Read	24	static
+main.c:111:5:main	8	static
+main.c:128:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:138:10:EVAL_AUDIO_GetSampleCallBack	4	static

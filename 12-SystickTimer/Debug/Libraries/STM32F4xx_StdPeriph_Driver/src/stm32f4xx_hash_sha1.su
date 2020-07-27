@@ -1,0 +1,2 @@
+stm32f4xx_hash_sha1.c:93:13:HASH_SHA1	144	static
+stm32f4xx_hash_sha1.c:169:13:HMAC_SHA1	144	static

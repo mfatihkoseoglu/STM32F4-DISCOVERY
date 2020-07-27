@@ -1,0 +1,1944 @@
+
+037_FLASH_MEMORY.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000188  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00000938  08000188  08000188  00010188  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000000  08000ac0  08000ac0  00020010  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .init_array   00000004  08000ac0  08000ac0  00010ac0  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .fini_array   00000004  08000ac4  08000ac4  00010ac4  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  5 .data         00000010  20000000  08000ac8  00020000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .ccmram       00000000  10000000  10000000  00020010  2**0
+                  CONTENTS
+  7 .bss          0000009c  20000010  20000010  00020010  2**2
+                  ALLOC
+  8 ._user_heap_stack 00000400  200000ac  200000ac  00020010  2**0
+                  ALLOC
+  9 .ARM.attributes 00000030  00000000  00000000  00020010  2**0
+                  CONTENTS, READONLY
+ 10 .debug_info   00003a70  00000000  00000000  00020040  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_abbrev 00000ba1  00000000  00000000  00023ab0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_aranges 00000570  00000000  00000000  00024658  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_ranges 000004e8  00000000  00000000  00024bc8  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_line   00001e88  00000000  00000000  000250b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .debug_str    00001ede  00000000  00000000  00026f38  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 16 .comment      0000007c  00000000  00000000  00028e16  2**0
+                  CONTENTS, READONLY
+ 17 .debug_frame  00001570  00000000  00000000  00028e94  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 18 .stabstr      0000003f  00000000  00000000  0002a404  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+08000188 <__do_global_dtors_aux>:
+ 8000188:	b510      	push	{r4, lr}
+ 800018a:	4c05      	ldr	r4, [pc, #20]	; (80001a0 <__do_global_dtors_aux+0x18>)
+ 800018c:	7823      	ldrb	r3, [r4, #0]
+ 800018e:	b933      	cbnz	r3, 800019e <__do_global_dtors_aux+0x16>
+ 8000190:	4b04      	ldr	r3, [pc, #16]	; (80001a4 <__do_global_dtors_aux+0x1c>)
+ 8000192:	b113      	cbz	r3, 800019a <__do_global_dtors_aux+0x12>
+ 8000194:	4804      	ldr	r0, [pc, #16]	; (80001a8 <__do_global_dtors_aux+0x20>)
+ 8000196:	f3af 8000 	nop.w
+ 800019a:	2301      	movs	r3, #1
+ 800019c:	7023      	strb	r3, [r4, #0]
+ 800019e:	bd10      	pop	{r4, pc}
+ 80001a0:	20000010 	.word	0x20000010
+ 80001a4:	00000000 	.word	0x00000000
+ 80001a8:	08000aa8 	.word	0x08000aa8
+
+080001ac <frame_dummy>:
+ 80001ac:	b508      	push	{r3, lr}
+ 80001ae:	4b03      	ldr	r3, [pc, #12]	; (80001bc <frame_dummy+0x10>)
+ 80001b0:	b11b      	cbz	r3, 80001ba <frame_dummy+0xe>
+ 80001b2:	4903      	ldr	r1, [pc, #12]	; (80001c0 <frame_dummy+0x14>)
+ 80001b4:	4803      	ldr	r0, [pc, #12]	; (80001c4 <frame_dummy+0x18>)
+ 80001b6:	f3af 8000 	nop.w
+ 80001ba:	bd08      	pop	{r3, pc}
+ 80001bc:	00000000 	.word	0x00000000
+ 80001c0:	20000014 	.word	0x20000014
+ 80001c4:	08000aa8 	.word	0x08000aa8
+
+080001c8 <DAC_SetChannel1Data>:
+  *            @arg DAC_Align_12b_R: 12bit right data alignment selected
+  * @param  Data: Data to be loaded in the selected data holding register.
+  * @retval None
+  */
+void DAC_SetChannel1Data(uint32_t DAC_Align, uint16_t Data)
+{  
+ 80001c8:	b480      	push	{r7}
+ 80001ca:	b085      	sub	sp, #20
+ 80001cc:	af00      	add	r7, sp, #0
+ 80001ce:	6078      	str	r0, [r7, #4]
+ 80001d0:	460b      	mov	r3, r1
+ 80001d2:	807b      	strh	r3, [r7, #2]
+  __IO uint32_t tmp = 0;
+ 80001d4:	2300      	movs	r3, #0
+ 80001d6:	60fb      	str	r3, [r7, #12]
+  
+  /* Check the parameters */
+  assert_param(IS_DAC_ALIGN(DAC_Align));
+  assert_param(IS_DAC_DATA(Data));
+  
+  tmp = (uint32_t)DAC_BASE; 
+ 80001d8:	4b08      	ldr	r3, [pc, #32]	; (80001fc <DAC_SetChannel1Data+0x34>)
+ 80001da:	60fb      	str	r3, [r7, #12]
+  tmp += DHR12R1_OFFSET + DAC_Align;
+ 80001dc:	68fa      	ldr	r2, [r7, #12]
+ 80001de:	687b      	ldr	r3, [r7, #4]
+ 80001e0:	4413      	add	r3, r2
+ 80001e2:	3308      	adds	r3, #8
+ 80001e4:	60fb      	str	r3, [r7, #12]
+
+  /* Set the DAC channel1 selected data holding register */
+  *(__IO uint32_t *) tmp = Data;
+ 80001e6:	68fb      	ldr	r3, [r7, #12]
+ 80001e8:	461a      	mov	r2, r3
+ 80001ea:	887b      	ldrh	r3, [r7, #2]
+ 80001ec:	6013      	str	r3, [r2, #0]
+}
+ 80001ee:	bf00      	nop
+ 80001f0:	3714      	adds	r7, #20
+ 80001f2:	46bd      	mov	sp, r7
+ 80001f4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80001f8:	4770      	bx	lr
+ 80001fa:	bf00      	nop
+ 80001fc:	40007400 	.word	0x40007400
+
+08000200 <DMA_Init>:
+  * @param  DMA_InitStruct: pointer to a DMA_InitTypeDef structure that contains
+  *         the configuration information for the specified DMA Stream.  
+  * @retval None
+  */
+void DMA_Init(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct)
+{
+ 8000200:	b480      	push	{r7}
+ 8000202:	b085      	sub	sp, #20
+ 8000204:	af00      	add	r7, sp, #0
+ 8000206:	6078      	str	r0, [r7, #4]
+ 8000208:	6039      	str	r1, [r7, #0]
+  uint32_t tmpreg = 0;
+ 800020a:	2300      	movs	r3, #0
+ 800020c:	60fb      	str	r3, [r7, #12]
+  assert_param(IS_DMA_MEMORY_BURST(DMA_InitStruct->DMA_MemoryBurst));
+  assert_param(IS_DMA_PERIPHERAL_BURST(DMA_InitStruct->DMA_PeripheralBurst));
+
+  /*------------------------- DMAy Streamx CR Configuration ------------------*/
+  /* Get the DMAy_Streamx CR value */
+  tmpreg = DMAy_Streamx->CR;
+ 800020e:	687b      	ldr	r3, [r7, #4]
+ 8000210:	681b      	ldr	r3, [r3, #0]
+ 8000212:	60fb      	str	r3, [r7, #12]
+
+  /* Clear CHSEL, MBURST, PBURST, PL, MSIZE, PSIZE, MINC, PINC, CIRC and DIR bits */
+  tmpreg &= ((uint32_t)~(DMA_SxCR_CHSEL | DMA_SxCR_MBURST | DMA_SxCR_PBURST | \
+ 8000214:	68fa      	ldr	r2, [r7, #12]
+ 8000216:	4b25      	ldr	r3, [pc, #148]	; (80002ac <DMA_Init+0xac>)
+ 8000218:	4013      	ands	r3, r2
+ 800021a:	60fb      	str	r3, [r7, #12]
+  /* Set MSIZE bits according to DMA_MemoryDataSize value */
+  /* Set CIRC bit according to DMA_Mode value */
+  /* Set PL bits according to DMA_Priority value */
+  /* Set MBURST bits according to DMA_MemoryBurst value */
+  /* Set PBURST bits according to DMA_PeripheralBurst value */
+  tmpreg |= DMA_InitStruct->DMA_Channel | DMA_InitStruct->DMA_DIR |
+ 800021c:	683b      	ldr	r3, [r7, #0]
+ 800021e:	681a      	ldr	r2, [r3, #0]
+ 8000220:	683b      	ldr	r3, [r7, #0]
+ 8000222:	68db      	ldr	r3, [r3, #12]
+ 8000224:	431a      	orrs	r2, r3
+            DMA_InitStruct->DMA_PeripheralInc | DMA_InitStruct->DMA_MemoryInc |
+ 8000226:	683b      	ldr	r3, [r7, #0]
+ 8000228:	695b      	ldr	r3, [r3, #20]
+  tmpreg |= DMA_InitStruct->DMA_Channel | DMA_InitStruct->DMA_DIR |
+ 800022a:	431a      	orrs	r2, r3
+            DMA_InitStruct->DMA_PeripheralInc | DMA_InitStruct->DMA_MemoryInc |
+ 800022c:	683b      	ldr	r3, [r7, #0]
+ 800022e:	699b      	ldr	r3, [r3, #24]
+ 8000230:	431a      	orrs	r2, r3
+            DMA_InitStruct->DMA_PeripheralDataSize | DMA_InitStruct->DMA_MemoryDataSize |
+ 8000232:	683b      	ldr	r3, [r7, #0]
+ 8000234:	69db      	ldr	r3, [r3, #28]
+            DMA_InitStruct->DMA_PeripheralInc | DMA_InitStruct->DMA_MemoryInc |
+ 8000236:	431a      	orrs	r2, r3
+            DMA_InitStruct->DMA_PeripheralDataSize | DMA_InitStruct->DMA_MemoryDataSize |
+ 8000238:	683b      	ldr	r3, [r7, #0]
+ 800023a:	6a1b      	ldr	r3, [r3, #32]
+ 800023c:	431a      	orrs	r2, r3
+            DMA_InitStruct->DMA_Mode | DMA_InitStruct->DMA_Priority |
+ 800023e:	683b      	ldr	r3, [r7, #0]
+ 8000240:	6a5b      	ldr	r3, [r3, #36]	; 0x24
+            DMA_InitStruct->DMA_PeripheralDataSize | DMA_InitStruct->DMA_MemoryDataSize |
+ 8000242:	431a      	orrs	r2, r3
+            DMA_InitStruct->DMA_Mode | DMA_InitStruct->DMA_Priority |
+ 8000244:	683b      	ldr	r3, [r7, #0]
+ 8000246:	6a9b      	ldr	r3, [r3, #40]	; 0x28
+ 8000248:	431a      	orrs	r2, r3
+            DMA_InitStruct->DMA_MemoryBurst | DMA_InitStruct->DMA_PeripheralBurst;
+ 800024a:	683b      	ldr	r3, [r7, #0]
+ 800024c:	6b5b      	ldr	r3, [r3, #52]	; 0x34
+            DMA_InitStruct->DMA_Mode | DMA_InitStruct->DMA_Priority |
+ 800024e:	431a      	orrs	r2, r3
+            DMA_InitStruct->DMA_MemoryBurst | DMA_InitStruct->DMA_PeripheralBurst;
+ 8000250:	683b      	ldr	r3, [r7, #0]
+ 8000252:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000254:	4313      	orrs	r3, r2
+  tmpreg |= DMA_InitStruct->DMA_Channel | DMA_InitStruct->DMA_DIR |
+ 8000256:	68fa      	ldr	r2, [r7, #12]
+ 8000258:	4313      	orrs	r3, r2
+ 800025a:	60fb      	str	r3, [r7, #12]
+
+  /* Write to DMAy Streamx CR register */
+  DMAy_Streamx->CR = tmpreg;
+ 800025c:	687b      	ldr	r3, [r7, #4]
+ 800025e:	68fa      	ldr	r2, [r7, #12]
+ 8000260:	601a      	str	r2, [r3, #0]
+
+  /*------------------------- DMAy Streamx FCR Configuration -----------------*/
+  /* Get the DMAy_Streamx FCR value */
+  tmpreg = DMAy_Streamx->FCR;
+ 8000262:	687b      	ldr	r3, [r7, #4]
+ 8000264:	695b      	ldr	r3, [r3, #20]
+ 8000266:	60fb      	str	r3, [r7, #12]
+
+  /* Clear DMDIS and FTH bits */
+  tmpreg &= (uint32_t)~(DMA_SxFCR_DMDIS | DMA_SxFCR_FTH);
+ 8000268:	68fb      	ldr	r3, [r7, #12]
+ 800026a:	f023 0307 	bic.w	r3, r3, #7
+ 800026e:	60fb      	str	r3, [r7, #12]
+
+  /* Configure DMAy Streamx FIFO: 
+    Set DMDIS bits according to DMA_FIFOMode value 
+    Set FTH bits according to DMA_FIFOThreshold value */
+  tmpreg |= DMA_InitStruct->DMA_FIFOMode | DMA_InitStruct->DMA_FIFOThreshold;
+ 8000270:	683b      	ldr	r3, [r7, #0]
+ 8000272:	6ada      	ldr	r2, [r3, #44]	; 0x2c
+ 8000274:	683b      	ldr	r3, [r7, #0]
+ 8000276:	6b1b      	ldr	r3, [r3, #48]	; 0x30
+ 8000278:	4313      	orrs	r3, r2
+ 800027a:	68fa      	ldr	r2, [r7, #12]
+ 800027c:	4313      	orrs	r3, r2
+ 800027e:	60fb      	str	r3, [r7, #12]
+
+  /* Write to DMAy Streamx CR */
+  DMAy_Streamx->FCR = tmpreg;
+ 8000280:	687b      	ldr	r3, [r7, #4]
+ 8000282:	68fa      	ldr	r2, [r7, #12]
+ 8000284:	615a      	str	r2, [r3, #20]
+
+  /*------------------------- DMAy Streamx NDTR Configuration ----------------*/
+  /* Write to DMAy Streamx NDTR register */
+  DMAy_Streamx->NDTR = DMA_InitStruct->DMA_BufferSize;
+ 8000286:	683b      	ldr	r3, [r7, #0]
+ 8000288:	691a      	ldr	r2, [r3, #16]
+ 800028a:	687b      	ldr	r3, [r7, #4]
+ 800028c:	605a      	str	r2, [r3, #4]
+
+  /*------------------------- DMAy Streamx PAR Configuration -----------------*/
+  /* Write to DMAy Streamx PAR */
+  DMAy_Streamx->PAR = DMA_InitStruct->DMA_PeripheralBaseAddr;
+ 800028e:	683b      	ldr	r3, [r7, #0]
+ 8000290:	685a      	ldr	r2, [r3, #4]
+ 8000292:	687b      	ldr	r3, [r7, #4]
+ 8000294:	609a      	str	r2, [r3, #8]
+
+  /*------------------------- DMAy Streamx M0AR Configuration ----------------*/
+  /* Write to DMAy Streamx M0AR */
+  DMAy_Streamx->M0AR = DMA_InitStruct->DMA_Memory0BaseAddr;
+ 8000296:	683b      	ldr	r3, [r7, #0]
+ 8000298:	689a      	ldr	r2, [r3, #8]
+ 800029a:	687b      	ldr	r3, [r7, #4]
+ 800029c:	60da      	str	r2, [r3, #12]
+}
+ 800029e:	bf00      	nop
+ 80002a0:	3714      	adds	r7, #20
+ 80002a2:	46bd      	mov	sp, r7
+ 80002a4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80002a8:	4770      	bx	lr
+ 80002aa:	bf00      	nop
+ 80002ac:	f01c803f 	.word	0xf01c803f
+
+080002b0 <DMA_Cmd>:
+  *        this single data is finished.            
+  *    
+  * @retval None
+  */
+void DMA_Cmd(DMA_Stream_TypeDef* DMAy_Streamx, FunctionalState NewState)
+{
+ 80002b0:	b480      	push	{r7}
+ 80002b2:	b083      	sub	sp, #12
+ 80002b4:	af00      	add	r7, sp, #0
+ 80002b6:	6078      	str	r0, [r7, #4]
+ 80002b8:	460b      	mov	r3, r1
+ 80002ba:	70fb      	strb	r3, [r7, #3]
+  /* Check the parameters */
+  assert_param(IS_DMA_ALL_PERIPH(DMAy_Streamx));
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+  if (NewState != DISABLE)
+ 80002bc:	78fb      	ldrb	r3, [r7, #3]
+ 80002be:	2b00      	cmp	r3, #0
+ 80002c0:	d006      	beq.n	80002d0 <DMA_Cmd+0x20>
+  {
+    /* Enable the selected DMAy Streamx by setting EN bit */
+    DMAy_Streamx->CR |= (uint32_t)DMA_SxCR_EN;
+ 80002c2:	687b      	ldr	r3, [r7, #4]
+ 80002c4:	681b      	ldr	r3, [r3, #0]
+ 80002c6:	f043 0201 	orr.w	r2, r3, #1
+ 80002ca:	687b      	ldr	r3, [r7, #4]
+ 80002cc:	601a      	str	r2, [r3, #0]
+  else
+  {
+    /* Disable the selected DMAy Streamx by clearing EN bit */
+    DMAy_Streamx->CR &= ~(uint32_t)DMA_SxCR_EN;
+  }
+}
+ 80002ce:	e005      	b.n	80002dc <DMA_Cmd+0x2c>
+    DMAy_Streamx->CR &= ~(uint32_t)DMA_SxCR_EN;
+ 80002d0:	687b      	ldr	r3, [r7, #4]
+ 80002d2:	681b      	ldr	r3, [r3, #0]
+ 80002d4:	f023 0201 	bic.w	r2, r3, #1
+ 80002d8:	687b      	ldr	r3, [r7, #4]
+ 80002da:	601a      	str	r2, [r3, #0]
+}
+ 80002dc:	bf00      	nop
+ 80002de:	370c      	adds	r7, #12
+ 80002e0:	46bd      	mov	sp, r7
+ 80002e2:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80002e6:	4770      	bx	lr
+
+080002e8 <DMA_GetCmdStatus>:
+  *          of this single data is finished.  
+  *      
+  * @retval Current state of the DMAy Streamx (ENABLE or DISABLE).
+  */
+FunctionalState DMA_GetCmdStatus(DMA_Stream_TypeDef* DMAy_Streamx)
+{
+ 80002e8:	b480      	push	{r7}
+ 80002ea:	b085      	sub	sp, #20
+ 80002ec:	af00      	add	r7, sp, #0
+ 80002ee:	6078      	str	r0, [r7, #4]
+  FunctionalState state = DISABLE;
+ 80002f0:	2300      	movs	r3, #0
+ 80002f2:	73fb      	strb	r3, [r7, #15]
+
+  /* Check the parameters */
+  assert_param(IS_DMA_ALL_PERIPH(DMAy_Streamx));
+
+  if ((DMAy_Streamx->CR & (uint32_t)DMA_SxCR_EN) != 0)
+ 80002f4:	687b      	ldr	r3, [r7, #4]
+ 80002f6:	681b      	ldr	r3, [r3, #0]
+ 80002f8:	f003 0301 	and.w	r3, r3, #1
+ 80002fc:	2b00      	cmp	r3, #0
+ 80002fe:	d002      	beq.n	8000306 <DMA_GetCmdStatus+0x1e>
+  {
+    /* The selected DMAy Streamx EN bit is set (DMA is still transferring) */
+    state = ENABLE;
+ 8000300:	2301      	movs	r3, #1
+ 8000302:	73fb      	strb	r3, [r7, #15]
+ 8000304:	e001      	b.n	800030a <DMA_GetCmdStatus+0x22>
+  }
+  else
+  {
+    /* The selected DMAy Streamx EN bit is cleared (DMA is disabled and 
+        all transfers are complete) */
+    state = DISABLE;
+ 8000306:	2300      	movs	r3, #0
+ 8000308:	73fb      	strb	r3, [r7, #15]
+  }
+  return state;
+ 800030a:	7bfb      	ldrb	r3, [r7, #15]
+}
+ 800030c:	4618      	mov	r0, r3
+ 800030e:	3714      	adds	r7, #20
+ 8000310:	46bd      	mov	sp, r7
+ 8000312:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000316:	4770      	bx	lr
+
+08000318 <DMA_GetFlagStatus>:
+  *            @arg DMA_FLAG_FEIFx:  Streamx FIFO error flag
+  *         Where x can be 0 to 7 to select the DMA Stream.
+  * @retval The new state of DMA_FLAG (SET or RESET).
+  */
+FlagStatus DMA_GetFlagStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG)
+{
+ 8000318:	b480      	push	{r7}
+ 800031a:	b087      	sub	sp, #28
+ 800031c:	af00      	add	r7, sp, #0
+ 800031e:	6078      	str	r0, [r7, #4]
+ 8000320:	6039      	str	r1, [r7, #0]
+  FlagStatus bitstatus = RESET;
+ 8000322:	2300      	movs	r3, #0
+ 8000324:	75fb      	strb	r3, [r7, #23]
+  DMA_TypeDef* DMAy;
+  uint32_t tmpreg = 0;
+ 8000326:	2300      	movs	r3, #0
+ 8000328:	60fb      	str	r3, [r7, #12]
+  /* Check the parameters */
+  assert_param(IS_DMA_ALL_PERIPH(DMAy_Streamx));
+  assert_param(IS_DMA_GET_FLAG(DMA_FLAG));
+
+  /* Determine the DMA to which belongs the stream */
+  if (DMAy_Streamx < DMA2_Stream0)
+ 800032a:	687b      	ldr	r3, [r7, #4]
+ 800032c:	4a15      	ldr	r2, [pc, #84]	; (8000384 <DMA_GetFlagStatus+0x6c>)
+ 800032e:	4293      	cmp	r3, r2
+ 8000330:	d802      	bhi.n	8000338 <DMA_GetFlagStatus+0x20>
+  {
+    /* DMAy_Streamx belongs to DMA1 */
+    DMAy = DMA1; 
+ 8000332:	4b15      	ldr	r3, [pc, #84]	; (8000388 <DMA_GetFlagStatus+0x70>)
+ 8000334:	613b      	str	r3, [r7, #16]
+ 8000336:	e001      	b.n	800033c <DMA_GetFlagStatus+0x24>
+  } 
+  else 
+  {
+    /* DMAy_Streamx belongs to DMA2 */
+    DMAy = DMA2; 
+ 8000338:	4b14      	ldr	r3, [pc, #80]	; (800038c <DMA_GetFlagStatus+0x74>)
+ 800033a:	613b      	str	r3, [r7, #16]
+  }
+
+  /* Check if the flag is in HISR or LISR */
+  if ((DMA_FLAG & HIGH_ISR_MASK) != (uint32_t)RESET)
+ 800033c:	683b      	ldr	r3, [r7, #0]
+ 800033e:	f003 5300 	and.w	r3, r3, #536870912	; 0x20000000
+ 8000342:	2b00      	cmp	r3, #0
+ 8000344:	d003      	beq.n	800034e <DMA_GetFlagStatus+0x36>
+  {
+    /* Get DMAy HISR register value */
+    tmpreg = DMAy->HISR;
+ 8000346:	693b      	ldr	r3, [r7, #16]
+ 8000348:	685b      	ldr	r3, [r3, #4]
+ 800034a:	60fb      	str	r3, [r7, #12]
+ 800034c:	e002      	b.n	8000354 <DMA_GetFlagStatus+0x3c>
+  }
+  else
+  {
+    /* Get DMAy LISR register value */
+    tmpreg = DMAy->LISR;
+ 800034e:	693b      	ldr	r3, [r7, #16]
+ 8000350:	681b      	ldr	r3, [r3, #0]
+ 8000352:	60fb      	str	r3, [r7, #12]
+  }   
+ 
+  /* Mask the reserved bits */
+  tmpreg &= (uint32_t)RESERVED_MASK;
+ 8000354:	68fb      	ldr	r3, [r7, #12]
+ 8000356:	f023 23f0 	bic.w	r3, r3, #4026593280	; 0xf000f000
+ 800035a:	f023 1382 	bic.w	r3, r3, #8519810	; 0x820082
+ 800035e:	60fb      	str	r3, [r7, #12]
+
+  /* Check the status of the specified DMA flag */
+  if ((tmpreg & DMA_FLAG) != (uint32_t)RESET)
+ 8000360:	68fa      	ldr	r2, [r7, #12]
+ 8000362:	683b      	ldr	r3, [r7, #0]
+ 8000364:	4013      	ands	r3, r2
+ 8000366:	2b00      	cmp	r3, #0
+ 8000368:	d002      	beq.n	8000370 <DMA_GetFlagStatus+0x58>
+  {
+    /* DMA_FLAG is set */
+    bitstatus = SET;
+ 800036a:	2301      	movs	r3, #1
+ 800036c:	75fb      	strb	r3, [r7, #23]
+ 800036e:	e001      	b.n	8000374 <DMA_GetFlagStatus+0x5c>
+  }
+  else
+  {
+    /* DMA_FLAG is reset */
+    bitstatus = RESET;
+ 8000370:	2300      	movs	r3, #0
+ 8000372:	75fb      	strb	r3, [r7, #23]
+  }
+
+  /* Return the DMA_FLAG status */
+  return  bitstatus;
+ 8000374:	7dfb      	ldrb	r3, [r7, #23]
+}
+ 8000376:	4618      	mov	r0, r3
+ 8000378:	371c      	adds	r7, #28
+ 800037a:	46bd      	mov	sp, r7
+ 800037c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000380:	4770      	bx	lr
+ 8000382:	bf00      	nop
+ 8000384:	4002640f 	.word	0x4002640f
+ 8000388:	40026000 	.word	0x40026000
+ 800038c:	40026400 	.word	0x40026400
+
+08000390 <DMA_ClearFlag>:
+  *            @arg DMA_FLAG_FEIFx:  Streamx FIFO error flag
+  *         Where x can be 0 to 7 to select the DMA Stream.   
+  * @retval None
+  */
+void DMA_ClearFlag(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG)
+{
+ 8000390:	b480      	push	{r7}
+ 8000392:	b085      	sub	sp, #20
+ 8000394:	af00      	add	r7, sp, #0
+ 8000396:	6078      	str	r0, [r7, #4]
+ 8000398:	6039      	str	r1, [r7, #0]
+  /* Check the parameters */
+  assert_param(IS_DMA_ALL_PERIPH(DMAy_Streamx));
+  assert_param(IS_DMA_CLEAR_FLAG(DMA_FLAG));
+
+  /* Determine the DMA to which belongs the stream */
+  if (DMAy_Streamx < DMA2_Stream0)
+ 800039a:	687b      	ldr	r3, [r7, #4]
+ 800039c:	4a10      	ldr	r2, [pc, #64]	; (80003e0 <DMA_ClearFlag+0x50>)
+ 800039e:	4293      	cmp	r3, r2
+ 80003a0:	d802      	bhi.n	80003a8 <DMA_ClearFlag+0x18>
+  {
+    /* DMAy_Streamx belongs to DMA1 */
+    DMAy = DMA1; 
+ 80003a2:	4b10      	ldr	r3, [pc, #64]	; (80003e4 <DMA_ClearFlag+0x54>)
+ 80003a4:	60fb      	str	r3, [r7, #12]
+ 80003a6:	e001      	b.n	80003ac <DMA_ClearFlag+0x1c>
+  } 
+  else 
+  {
+    /* DMAy_Streamx belongs to DMA2 */
+    DMAy = DMA2; 
+ 80003a8:	4b0f      	ldr	r3, [pc, #60]	; (80003e8 <DMA_ClearFlag+0x58>)
+ 80003aa:	60fb      	str	r3, [r7, #12]
+  }
+
+  /* Check if LIFCR or HIFCR register is targeted */
+  if ((DMA_FLAG & HIGH_ISR_MASK) != (uint32_t)RESET)
+ 80003ac:	683b      	ldr	r3, [r7, #0]
+ 80003ae:	f003 5300 	and.w	r3, r3, #536870912	; 0x20000000
+ 80003b2:	2b00      	cmp	r3, #0
+ 80003b4:	d007      	beq.n	80003c6 <DMA_ClearFlag+0x36>
+  {
+    /* Set DMAy HIFCR register clear flag bits */
+    DMAy->HIFCR = (uint32_t)(DMA_FLAG & RESERVED_MASK);
+ 80003b6:	683b      	ldr	r3, [r7, #0]
+ 80003b8:	f023 23f0 	bic.w	r3, r3, #4026593280	; 0xf000f000
+ 80003bc:	f023 1382 	bic.w	r3, r3, #8519810	; 0x820082
+ 80003c0:	68fa      	ldr	r2, [r7, #12]
+ 80003c2:	60d3      	str	r3, [r2, #12]
+  else 
+  {
+    /* Set DMAy LIFCR register clear flag bits */
+    DMAy->LIFCR = (uint32_t)(DMA_FLAG & RESERVED_MASK);
+  }    
+}
+ 80003c4:	e006      	b.n	80003d4 <DMA_ClearFlag+0x44>
+    DMAy->LIFCR = (uint32_t)(DMA_FLAG & RESERVED_MASK);
+ 80003c6:	683b      	ldr	r3, [r7, #0]
+ 80003c8:	f023 23f0 	bic.w	r3, r3, #4026593280	; 0xf000f000
+ 80003cc:	f023 1382 	bic.w	r3, r3, #8519810	; 0x820082
+ 80003d0:	68fa      	ldr	r2, [r7, #12]
+ 80003d2:	6093      	str	r3, [r2, #8]
+}
+ 80003d4:	bf00      	nop
+ 80003d6:	3714      	adds	r7, #20
+ 80003d8:	46bd      	mov	sp, r7
+ 80003da:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80003de:	4770      	bx	lr
+ 80003e0:	4002640f 	.word	0x4002640f
+ 80003e4:	40026000 	.word	0x40026000
+ 80003e8:	40026400 	.word	0x40026400
+
+080003ec <FLASH_Unlock>:
+  * @brief  Unlocks the FLASH control register access
+  * @param  None
+  * @retval None
+  */
+void FLASH_Unlock(void)
+{
+ 80003ec:	b480      	push	{r7}
+ 80003ee:	af00      	add	r7, sp, #0
+  if((FLASH->CR & FLASH_CR_LOCK) != RESET)
+ 80003f0:	4b07      	ldr	r3, [pc, #28]	; (8000410 <FLASH_Unlock+0x24>)
+ 80003f2:	691b      	ldr	r3, [r3, #16]
+ 80003f4:	2b00      	cmp	r3, #0
+ 80003f6:	da05      	bge.n	8000404 <FLASH_Unlock+0x18>
+  {
+    /* Authorize the FLASH Registers access */
+    FLASH->KEYR = FLASH_KEY1;
+ 80003f8:	4b05      	ldr	r3, [pc, #20]	; (8000410 <FLASH_Unlock+0x24>)
+ 80003fa:	4a06      	ldr	r2, [pc, #24]	; (8000414 <FLASH_Unlock+0x28>)
+ 80003fc:	605a      	str	r2, [r3, #4]
+    FLASH->KEYR = FLASH_KEY2;
+ 80003fe:	4b04      	ldr	r3, [pc, #16]	; (8000410 <FLASH_Unlock+0x24>)
+ 8000400:	4a05      	ldr	r2, [pc, #20]	; (8000418 <FLASH_Unlock+0x2c>)
+ 8000402:	605a      	str	r2, [r3, #4]
+  }  
+}
+ 8000404:	bf00      	nop
+ 8000406:	46bd      	mov	sp, r7
+ 8000408:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800040c:	4770      	bx	lr
+ 800040e:	bf00      	nop
+ 8000410:	40023c00 	.word	0x40023c00
+ 8000414:	45670123 	.word	0x45670123
+ 8000418:	cdef89ab 	.word	0xcdef89ab
+
+0800041c <FLASH_Lock>:
+  * @brief  Locks the FLASH control register access
+  * @param  None
+  * @retval None
+  */
+void FLASH_Lock(void)
+{
+ 800041c:	b480      	push	{r7}
+ 800041e:	af00      	add	r7, sp, #0
+  /* Set the LOCK Bit to lock the FLASH Registers access */
+  FLASH->CR |= FLASH_CR_LOCK;
+ 8000420:	4a05      	ldr	r2, [pc, #20]	; (8000438 <FLASH_Lock+0x1c>)
+ 8000422:	4b05      	ldr	r3, [pc, #20]	; (8000438 <FLASH_Lock+0x1c>)
+ 8000424:	691b      	ldr	r3, [r3, #16]
+ 8000426:	f043 4300 	orr.w	r3, r3, #2147483648	; 0x80000000
+ 800042a:	6113      	str	r3, [r2, #16]
+}
+ 800042c:	bf00      	nop
+ 800042e:	46bd      	mov	sp, r7
+ 8000430:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000434:	4770      	bx	lr
+ 8000436:	bf00      	nop
+ 8000438:	40023c00 	.word	0x40023c00
+
+0800043c <FLASH_EraseSector>:
+  *       
+  * @retval FLASH Status: The returned value can be: FLASH_BUSY, FLASH_ERROR_PROGRAM,
+  *                       FLASH_ERROR_WRP, FLASH_ERROR_OPERATION or FLASH_COMPLETE.
+  */
+FLASH_Status FLASH_EraseSector(uint32_t FLASH_Sector, uint8_t VoltageRange)
+{
+ 800043c:	b580      	push	{r7, lr}
+ 800043e:	b084      	sub	sp, #16
+ 8000440:	af00      	add	r7, sp, #0
+ 8000442:	6078      	str	r0, [r7, #4]
+ 8000444:	460b      	mov	r3, r1
+ 8000446:	70fb      	strb	r3, [r7, #3]
+  uint32_t tmp_psize = 0x0;
+ 8000448:	2300      	movs	r3, #0
+ 800044a:	60fb      	str	r3, [r7, #12]
+  FLASH_Status status = FLASH_COMPLETE;
+ 800044c:	2308      	movs	r3, #8
+ 800044e:	72fb      	strb	r3, [r7, #11]
+
+  /* Check the parameters */
+  assert_param(IS_FLASH_SECTOR(FLASH_Sector));
+  assert_param(IS_VOLTAGERANGE(VoltageRange));
+  
+  if(VoltageRange == VoltageRange_1)
+ 8000450:	78fb      	ldrb	r3, [r7, #3]
+ 8000452:	2b00      	cmp	r3, #0
+ 8000454:	d102      	bne.n	800045c <FLASH_EraseSector+0x20>
+  {
+     tmp_psize = FLASH_PSIZE_BYTE;
+ 8000456:	2300      	movs	r3, #0
+ 8000458:	60fb      	str	r3, [r7, #12]
+ 800045a:	e010      	b.n	800047e <FLASH_EraseSector+0x42>
+  }
+  else if(VoltageRange == VoltageRange_2)
+ 800045c:	78fb      	ldrb	r3, [r7, #3]
+ 800045e:	2b01      	cmp	r3, #1
+ 8000460:	d103      	bne.n	800046a <FLASH_EraseSector+0x2e>
+  {
+    tmp_psize = FLASH_PSIZE_HALF_WORD;
+ 8000462:	f44f 7380 	mov.w	r3, #256	; 0x100
+ 8000466:	60fb      	str	r3, [r7, #12]
+ 8000468:	e009      	b.n	800047e <FLASH_EraseSector+0x42>
+  }
+  else if(VoltageRange == VoltageRange_3)
+ 800046a:	78fb      	ldrb	r3, [r7, #3]
+ 800046c:	2b02      	cmp	r3, #2
+ 800046e:	d103      	bne.n	8000478 <FLASH_EraseSector+0x3c>
+  {
+    tmp_psize = FLASH_PSIZE_WORD;
+ 8000470:	f44f 7300 	mov.w	r3, #512	; 0x200
+ 8000474:	60fb      	str	r3, [r7, #12]
+ 8000476:	e002      	b.n	800047e <FLASH_EraseSector+0x42>
+  }
+  else
+  {
+    tmp_psize = FLASH_PSIZE_DOUBLE_WORD;
+ 8000478:	f44f 7340 	mov.w	r3, #768	; 0x300
+ 800047c:	60fb      	str	r3, [r7, #12]
+  }
+  /* Wait for last operation to be completed */
+  status = FLASH_WaitForLastOperation();
+ 800047e:	f000 f8a7 	bl	80005d0 <FLASH_WaitForLastOperation>
+ 8000482:	4603      	mov	r3, r0
+ 8000484:	72fb      	strb	r3, [r7, #11]
+  
+  if(status == FLASH_COMPLETE)
+ 8000486:	7afb      	ldrb	r3, [r7, #11]
+ 8000488:	2b08      	cmp	r3, #8
+ 800048a:	d12f      	bne.n	80004ec <FLASH_EraseSector+0xb0>
+  { 
+    /* if the previous operation is completed, proceed to erase the sector */
+    FLASH->CR &= CR_PSIZE_MASK;
+ 800048c:	4a1a      	ldr	r2, [pc, #104]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 800048e:	4b1a      	ldr	r3, [pc, #104]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 8000490:	691b      	ldr	r3, [r3, #16]
+ 8000492:	f423 7340 	bic.w	r3, r3, #768	; 0x300
+ 8000496:	6113      	str	r3, [r2, #16]
+    FLASH->CR |= tmp_psize;
+ 8000498:	4917      	ldr	r1, [pc, #92]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 800049a:	4b17      	ldr	r3, [pc, #92]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 800049c:	691a      	ldr	r2, [r3, #16]
+ 800049e:	68fb      	ldr	r3, [r7, #12]
+ 80004a0:	4313      	orrs	r3, r2
+ 80004a2:	610b      	str	r3, [r1, #16]
+    FLASH->CR &= SECTOR_MASK;
+ 80004a4:	4a14      	ldr	r2, [pc, #80]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004a6:	4b14      	ldr	r3, [pc, #80]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004a8:	691b      	ldr	r3, [r3, #16]
+ 80004aa:	f023 03f8 	bic.w	r3, r3, #248	; 0xf8
+ 80004ae:	6113      	str	r3, [r2, #16]
+    FLASH->CR |= FLASH_CR_SER | FLASH_Sector;
+ 80004b0:	4911      	ldr	r1, [pc, #68]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004b2:	4b11      	ldr	r3, [pc, #68]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004b4:	691a      	ldr	r2, [r3, #16]
+ 80004b6:	687b      	ldr	r3, [r7, #4]
+ 80004b8:	4313      	orrs	r3, r2
+ 80004ba:	f043 0302 	orr.w	r3, r3, #2
+ 80004be:	610b      	str	r3, [r1, #16]
+    FLASH->CR |= FLASH_CR_STRT;
+ 80004c0:	4a0d      	ldr	r2, [pc, #52]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004c2:	4b0d      	ldr	r3, [pc, #52]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004c4:	691b      	ldr	r3, [r3, #16]
+ 80004c6:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
+ 80004ca:	6113      	str	r3, [r2, #16]
+    
+    /* Wait for last operation to be completed */
+    status = FLASH_WaitForLastOperation();
+ 80004cc:	f000 f880 	bl	80005d0 <FLASH_WaitForLastOperation>
+ 80004d0:	4603      	mov	r3, r0
+ 80004d2:	72fb      	strb	r3, [r7, #11]
+    
+    /* if the erase operation is completed, disable the SER Bit */
+    FLASH->CR &= (~FLASH_CR_SER);
+ 80004d4:	4a08      	ldr	r2, [pc, #32]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004d6:	4b08      	ldr	r3, [pc, #32]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004d8:	691b      	ldr	r3, [r3, #16]
+ 80004da:	f023 0302 	bic.w	r3, r3, #2
+ 80004de:	6113      	str	r3, [r2, #16]
+    FLASH->CR &= SECTOR_MASK; 
+ 80004e0:	4a05      	ldr	r2, [pc, #20]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004e2:	4b05      	ldr	r3, [pc, #20]	; (80004f8 <FLASH_EraseSector+0xbc>)
+ 80004e4:	691b      	ldr	r3, [r3, #16]
+ 80004e6:	f023 03f8 	bic.w	r3, r3, #248	; 0xf8
+ 80004ea:	6113      	str	r3, [r2, #16]
+  }
+  /* Return the Erase Status */
+  return status;
+ 80004ec:	7afb      	ldrb	r3, [r7, #11]
+}
+ 80004ee:	4618      	mov	r0, r3
+ 80004f0:	3710      	adds	r7, #16
+ 80004f2:	46bd      	mov	sp, r7
+ 80004f4:	bd80      	pop	{r7, pc}
+ 80004f6:	bf00      	nop
+ 80004f8:	40023c00 	.word	0x40023c00
+
+080004fc <FLASH_ProgramWord>:
+  * @param  Data: specifies the data to be programmed.
+  * @retval FLASH Status: The returned value can be: FLASH_BUSY, FLASH_ERROR_PROGRAM,
+  *                       FLASH_ERROR_WRP, FLASH_ERROR_OPERATION or FLASH_COMPLETE.
+  */
+FLASH_Status FLASH_ProgramWord(uint32_t Address, uint32_t Data)
+{
+ 80004fc:	b580      	push	{r7, lr}
+ 80004fe:	b084      	sub	sp, #16
+ 8000500:	af00      	add	r7, sp, #0
+ 8000502:	6078      	str	r0, [r7, #4]
+ 8000504:	6039      	str	r1, [r7, #0]
+  FLASH_Status status = FLASH_COMPLETE;
+ 8000506:	2308      	movs	r3, #8
+ 8000508:	73fb      	strb	r3, [r7, #15]
+
+  /* Check the parameters */
+  assert_param(IS_FLASH_ADDRESS(Address));
+
+  /* Wait for last operation to be completed */
+  status = FLASH_WaitForLastOperation();
+ 800050a:	f000 f861 	bl	80005d0 <FLASH_WaitForLastOperation>
+ 800050e:	4603      	mov	r3, r0
+ 8000510:	73fb      	strb	r3, [r7, #15]
+  
+  if(status == FLASH_COMPLETE)
+ 8000512:	7bfb      	ldrb	r3, [r7, #15]
+ 8000514:	2b08      	cmp	r3, #8
+ 8000516:	d11e      	bne.n	8000556 <FLASH_ProgramWord+0x5a>
+  {
+    /* if the previous operation is completed, proceed to program the new data */
+    FLASH->CR &= CR_PSIZE_MASK;
+ 8000518:	4a11      	ldr	r2, [pc, #68]	; (8000560 <FLASH_ProgramWord+0x64>)
+ 800051a:	4b11      	ldr	r3, [pc, #68]	; (8000560 <FLASH_ProgramWord+0x64>)
+ 800051c:	691b      	ldr	r3, [r3, #16]
+ 800051e:	f423 7340 	bic.w	r3, r3, #768	; 0x300
+ 8000522:	6113      	str	r3, [r2, #16]
+    FLASH->CR |= FLASH_PSIZE_WORD;
+ 8000524:	4a0e      	ldr	r2, [pc, #56]	; (8000560 <FLASH_ProgramWord+0x64>)
+ 8000526:	4b0e      	ldr	r3, [pc, #56]	; (8000560 <FLASH_ProgramWord+0x64>)
+ 8000528:	691b      	ldr	r3, [r3, #16]
+ 800052a:	f443 7300 	orr.w	r3, r3, #512	; 0x200
+ 800052e:	6113      	str	r3, [r2, #16]
+    FLASH->CR |= FLASH_CR_PG;
+ 8000530:	4a0b      	ldr	r2, [pc, #44]	; (8000560 <FLASH_ProgramWord+0x64>)
+ 8000532:	4b0b      	ldr	r3, [pc, #44]	; (8000560 <FLASH_ProgramWord+0x64>)
+ 8000534:	691b      	ldr	r3, [r3, #16]
+ 8000536:	f043 0301 	orr.w	r3, r3, #1
+ 800053a:	6113      	str	r3, [r2, #16]
+  
+    *(__IO uint32_t*)Address = Data;
+ 800053c:	687b      	ldr	r3, [r7, #4]
+ 800053e:	683a      	ldr	r2, [r7, #0]
+ 8000540:	601a      	str	r2, [r3, #0]
+        
+    /* Wait for last operation to be completed */
+    status = FLASH_WaitForLastOperation();
+ 8000542:	f000 f845 	bl	80005d0 <FLASH_WaitForLastOperation>
+ 8000546:	4603      	mov	r3, r0
+ 8000548:	73fb      	strb	r3, [r7, #15]
+
+    /* if the program operation is completed, disable the PG Bit */
+    FLASH->CR &= (~FLASH_CR_PG);
+ 800054a:	4a05      	ldr	r2, [pc, #20]	; (8000560 <FLASH_ProgramWord+0x64>)
+ 800054c:	4b04      	ldr	r3, [pc, #16]	; (8000560 <FLASH_ProgramWord+0x64>)
+ 800054e:	691b      	ldr	r3, [r3, #16]
+ 8000550:	f023 0301 	bic.w	r3, r3, #1
+ 8000554:	6113      	str	r3, [r2, #16]
+  } 
+  /* Return the Program Status */
+  return status;
+ 8000556:	7bfb      	ldrb	r3, [r7, #15]
+}
+ 8000558:	4618      	mov	r0, r3
+ 800055a:	3710      	adds	r7, #16
+ 800055c:	46bd      	mov	sp, r7
+ 800055e:	bd80      	pop	{r7, pc}
+ 8000560:	40023c00 	.word	0x40023c00
+
+08000564 <FLASH_GetStatus>:
+  * @param  None
+  * @retval FLASH Status: The returned value can be: FLASH_BUSY, FLASH_ERROR_PROGRAM,
+  *                       FLASH_ERROR_WRP, FLASH_ERROR_OPERATION or FLASH_COMPLETE.
+  */
+FLASH_Status FLASH_GetStatus(void)
+{
+ 8000564:	b480      	push	{r7}
+ 8000566:	b083      	sub	sp, #12
+ 8000568:	af00      	add	r7, sp, #0
+  FLASH_Status flashstatus = FLASH_COMPLETE;
+ 800056a:	2308      	movs	r3, #8
+ 800056c:	71fb      	strb	r3, [r7, #7]
+  
+  if((FLASH->SR & FLASH_FLAG_BSY) == FLASH_FLAG_BSY) 
+ 800056e:	4b17      	ldr	r3, [pc, #92]	; (80005cc <FLASH_GetStatus+0x68>)
+ 8000570:	68db      	ldr	r3, [r3, #12]
+ 8000572:	f403 3380 	and.w	r3, r3, #65536	; 0x10000
+ 8000576:	f5b3 3f80 	cmp.w	r3, #65536	; 0x10000
+ 800057a:	d102      	bne.n	8000582 <FLASH_GetStatus+0x1e>
+  {
+    flashstatus = FLASH_BUSY;
+ 800057c:	2301      	movs	r3, #1
+ 800057e:	71fb      	strb	r3, [r7, #7]
+ 8000580:	e01c      	b.n	80005bc <FLASH_GetStatus+0x58>
+  }
+  else 
+  {  
+    if((FLASH->SR & FLASH_FLAG_WRPERR) != (uint32_t)0x00)
+ 8000582:	4b12      	ldr	r3, [pc, #72]	; (80005cc <FLASH_GetStatus+0x68>)
+ 8000584:	68db      	ldr	r3, [r3, #12]
+ 8000586:	f003 0310 	and.w	r3, r3, #16
+ 800058a:	2b00      	cmp	r3, #0
+ 800058c:	d002      	beq.n	8000594 <FLASH_GetStatus+0x30>
+    { 
+      flashstatus = FLASH_ERROR_WRP;
+ 800058e:	2305      	movs	r3, #5
+ 8000590:	71fb      	strb	r3, [r7, #7]
+ 8000592:	e013      	b.n	80005bc <FLASH_GetStatus+0x58>
+    }
+    else
+    {
+      if((FLASH->SR & (uint32_t)0xEF) != (uint32_t)0x00)
+ 8000594:	4b0d      	ldr	r3, [pc, #52]	; (80005cc <FLASH_GetStatus+0x68>)
+ 8000596:	68db      	ldr	r3, [r3, #12]
+ 8000598:	f003 03ef 	and.w	r3, r3, #239	; 0xef
+ 800059c:	2b00      	cmp	r3, #0
+ 800059e:	d002      	beq.n	80005a6 <FLASH_GetStatus+0x42>
+      {
+        flashstatus = FLASH_ERROR_PROGRAM; 
+ 80005a0:	2306      	movs	r3, #6
+ 80005a2:	71fb      	strb	r3, [r7, #7]
+ 80005a4:	e00a      	b.n	80005bc <FLASH_GetStatus+0x58>
+      }
+      else
+      {
+        if((FLASH->SR & FLASH_FLAG_OPERR) != (uint32_t)0x00)
+ 80005a6:	4b09      	ldr	r3, [pc, #36]	; (80005cc <FLASH_GetStatus+0x68>)
+ 80005a8:	68db      	ldr	r3, [r3, #12]
+ 80005aa:	f003 0302 	and.w	r3, r3, #2
+ 80005ae:	2b00      	cmp	r3, #0
+ 80005b0:	d002      	beq.n	80005b8 <FLASH_GetStatus+0x54>
+        {
+          flashstatus = FLASH_ERROR_OPERATION;
+ 80005b2:	2307      	movs	r3, #7
+ 80005b4:	71fb      	strb	r3, [r7, #7]
+ 80005b6:	e001      	b.n	80005bc <FLASH_GetStatus+0x58>
+        }
+        else
+        {
+          flashstatus = FLASH_COMPLETE;
+ 80005b8:	2308      	movs	r3, #8
+ 80005ba:	71fb      	strb	r3, [r7, #7]
+        }
+      }
+    }
+  }
+  /* Return the FLASH Status */
+  return flashstatus;
+ 80005bc:	79fb      	ldrb	r3, [r7, #7]
+}
+ 80005be:	4618      	mov	r0, r3
+ 80005c0:	370c      	adds	r7, #12
+ 80005c2:	46bd      	mov	sp, r7
+ 80005c4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80005c8:	4770      	bx	lr
+ 80005ca:	bf00      	nop
+ 80005cc:	40023c00 	.word	0x40023c00
+
+080005d0 <FLASH_WaitForLastOperation>:
+  * @param  None
+  * @retval FLASH Status: The returned value can be: FLASH_BUSY, FLASH_ERROR_PROGRAM,
+  *                       FLASH_ERROR_WRP, FLASH_ERROR_OPERATION or FLASH_COMPLETE.
+  */
+FLASH_Status FLASH_WaitForLastOperation(void)
+{ 
+ 80005d0:	b580      	push	{r7, lr}
+ 80005d2:	b082      	sub	sp, #8
+ 80005d4:	af00      	add	r7, sp, #0
+  __IO FLASH_Status status = FLASH_COMPLETE;
+ 80005d6:	2308      	movs	r3, #8
+ 80005d8:	71fb      	strb	r3, [r7, #7]
+   
+  /* Check for the FLASH Status */
+  status = FLASH_GetStatus();
+ 80005da:	f7ff ffc3 	bl	8000564 <FLASH_GetStatus>
+ 80005de:	4603      	mov	r3, r0
+ 80005e0:	71fb      	strb	r3, [r7, #7]
+
+  /* Wait for the FLASH operation to complete by polling on BUSY flag to be reset.
+     Even if the FLASH operation fails, the BUSY flag will be reset and an error
+     flag will be set */
+  while(status == FLASH_BUSY)
+ 80005e2:	e003      	b.n	80005ec <FLASH_WaitForLastOperation+0x1c>
+  {
+    status = FLASH_GetStatus();
+ 80005e4:	f7ff ffbe 	bl	8000564 <FLASH_GetStatus>
+ 80005e8:	4603      	mov	r3, r0
+ 80005ea:	71fb      	strb	r3, [r7, #7]
+  while(status == FLASH_BUSY)
+ 80005ec:	79fb      	ldrb	r3, [r7, #7]
+ 80005ee:	b2db      	uxtb	r3, r3
+ 80005f0:	2b01      	cmp	r3, #1
+ 80005f2:	d0f7      	beq.n	80005e4 <FLASH_WaitForLastOperation+0x14>
+  }
+  /* Return the operation status */
+  return status;
+ 80005f4:	79fb      	ldrb	r3, [r7, #7]
+ 80005f6:	b2db      	uxtb	r3, r3
+}
+ 80005f8:	4618      	mov	r0, r3
+ 80005fa:	3708      	adds	r7, #8
+ 80005fc:	46bd      	mov	sp, r7
+ 80005fe:	bd80      	pop	{r7, pc}
+
+08000600 <SPI_I2S_SendData>:
+  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode.     
+  * @param  Data: Data to be transmitted.
+  * @retval None
+  */
+void SPI_I2S_SendData(SPI_TypeDef* SPIx, uint16_t Data)
+{
+ 8000600:	b480      	push	{r7}
+ 8000602:	b083      	sub	sp, #12
+ 8000604:	af00      	add	r7, sp, #0
+ 8000606:	6078      	str	r0, [r7, #4]
+ 8000608:	460b      	mov	r3, r1
+ 800060a:	807b      	strh	r3, [r7, #2]
+  /* Check the parameters */
+  assert_param(IS_SPI_ALL_PERIPH_EXT(SPIx));
+  
+  /* Write in the DR register the data to be sent */
+  SPIx->DR = Data;
+ 800060c:	687b      	ldr	r3, [r7, #4]
+ 800060e:	887a      	ldrh	r2, [r7, #2]
+ 8000610:	819a      	strh	r2, [r3, #12]
+}
+ 8000612:	bf00      	nop
+ 8000614:	370c      	adds	r7, #12
+ 8000616:	46bd      	mov	sp, r7
+ 8000618:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800061c:	4770      	bx	lr
+
+0800061e <SPI_I2S_GetFlagStatus>:
+  *            @arg I2S_FLAG_UDR: Underrun Error flag.
+  *            @arg I2S_FLAG_CHSIDE: Channel Side flag.  
+  * @retval The new state of SPI_I2S_FLAG (SET or RESET).
+  */
+FlagStatus SPI_I2S_GetFlagStatus(SPI_TypeDef* SPIx, uint16_t SPI_I2S_FLAG)
+{
+ 800061e:	b480      	push	{r7}
+ 8000620:	b085      	sub	sp, #20
+ 8000622:	af00      	add	r7, sp, #0
+ 8000624:	6078      	str	r0, [r7, #4]
+ 8000626:	460b      	mov	r3, r1
+ 8000628:	807b      	strh	r3, [r7, #2]
+  FlagStatus bitstatus = RESET;
+ 800062a:	2300      	movs	r3, #0
+ 800062c:	73fb      	strb	r3, [r7, #15]
+  /* Check the parameters */
+  assert_param(IS_SPI_ALL_PERIPH_EXT(SPIx));
+  assert_param(IS_SPI_I2S_GET_FLAG(SPI_I2S_FLAG));
+  
+  /* Check the status of the specified SPI flag */
+  if ((SPIx->SR & SPI_I2S_FLAG) != (uint16_t)RESET)
+ 800062e:	687b      	ldr	r3, [r7, #4]
+ 8000630:	891b      	ldrh	r3, [r3, #8]
+ 8000632:	b29a      	uxth	r2, r3
+ 8000634:	887b      	ldrh	r3, [r7, #2]
+ 8000636:	4013      	ands	r3, r2
+ 8000638:	b29b      	uxth	r3, r3
+ 800063a:	2b00      	cmp	r3, #0
+ 800063c:	d002      	beq.n	8000644 <SPI_I2S_GetFlagStatus+0x26>
+  {
+    /* SPI_I2S_FLAG is set */
+    bitstatus = SET;
+ 800063e:	2301      	movs	r3, #1
+ 8000640:	73fb      	strb	r3, [r7, #15]
+ 8000642:	e001      	b.n	8000648 <SPI_I2S_GetFlagStatus+0x2a>
+  }
+  else
+  {
+    /* SPI_I2S_FLAG is reset */
+    bitstatus = RESET;
+ 8000644:	2300      	movs	r3, #0
+ 8000646:	73fb      	strb	r3, [r7, #15]
+  }
+  /* Return the SPI_I2S_FLAG status */
+  return  bitstatus;
+ 8000648:	7bfb      	ldrb	r3, [r7, #15]
+}
+ 800064a:	4618      	mov	r0, r3
+ 800064c:	3714      	adds	r7, #20
+ 800064e:	46bd      	mov	sp, r7
+ 8000650:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000654:	4770      	bx	lr
+	...
+
+08000658 <Audio_MAL_IRQHandler>:
+  * @brief  This function handles main Media layer interrupt. 
+  * @param  None
+  * @retval 0 if correct communication, else wrong communication
+  */
+static void Audio_MAL_IRQHandler(void)
+{    
+ 8000658:	b580      	push	{r7, lr}
+ 800065a:	af00      	add	r7, sp, #0
+  uint32_t Size = AudioRemSize;
+#endif /* AUDIO_MAL_MODE_NORMAL */
+  
+#ifdef AUDIO_MAL_DMA_IT_TC_EN
+  /* Transfer complete interrupt */
+  if (DMA_GetFlagStatus(AUDIO_MAL_DMA_STREAM, AUDIO_MAL_DMA_FLAG_TC) != RESET)
+ 800065c:	4b38      	ldr	r3, [pc, #224]	; (8000740 <Audio_MAL_IRQHandler+0xe8>)
+ 800065e:	681a      	ldr	r2, [r3, #0]
+ 8000660:	4b38      	ldr	r3, [pc, #224]	; (8000744 <Audio_MAL_IRQHandler+0xec>)
+ 8000662:	681b      	ldr	r3, [r3, #0]
+ 8000664:	4619      	mov	r1, r3
+ 8000666:	4610      	mov	r0, r2
+ 8000668:	f7ff fe56 	bl	8000318 <DMA_GetFlagStatus>
+ 800066c:	4603      	mov	r3, r0
+ 800066e:	2b00      	cmp	r3, #0
+ 8000670:	d064      	beq.n	800073c <Audio_MAL_IRQHandler+0xe4>
+  {         
+ #ifdef AUDIO_MAL_MODE_NORMAL
+    /* Check if the end of file has been reached */
+    if (AudioRemSize > 0)
+ 8000672:	4b35      	ldr	r3, [pc, #212]	; (8000748 <Audio_MAL_IRQHandler+0xf0>)
+ 8000674:	681b      	ldr	r3, [r3, #0]
+ 8000676:	2b00      	cmp	r3, #0
+ 8000678:	d04c      	beq.n	8000714 <Audio_MAL_IRQHandler+0xbc>
+    {      
+      /* Wait the DMA Stream to be effectively disabled */
+      while (DMA_GetCmdStatus(AUDIO_MAL_DMA_STREAM) != DISABLE)
+ 800067a:	bf00      	nop
+ 800067c:	4b30      	ldr	r3, [pc, #192]	; (8000740 <Audio_MAL_IRQHandler+0xe8>)
+ 800067e:	681b      	ldr	r3, [r3, #0]
+ 8000680:	4618      	mov	r0, r3
+ 8000682:	f7ff fe31 	bl	80002e8 <DMA_GetCmdStatus>
+ 8000686:	4603      	mov	r3, r0
+ 8000688:	2b00      	cmp	r3, #0
+ 800068a:	d1f7      	bne.n	800067c <Audio_MAL_IRQHandler+0x24>
+      {}
+      
+      /* Clear the Interrupt flag */
+      DMA_ClearFlag(AUDIO_MAL_DMA_STREAM, AUDIO_MAL_DMA_FLAG_TC); 
+ 800068c:	4b2c      	ldr	r3, [pc, #176]	; (8000740 <Audio_MAL_IRQHandler+0xe8>)
+ 800068e:	681a      	ldr	r2, [r3, #0]
+ 8000690:	4b2c      	ldr	r3, [pc, #176]	; (8000744 <Audio_MAL_IRQHandler+0xec>)
+ 8000692:	681b      	ldr	r3, [r3, #0]
+ 8000694:	4619      	mov	r1, r3
+ 8000696:	4610      	mov	r0, r2
+ 8000698:	f7ff fe7a 	bl	8000390 <DMA_ClearFlag>
+           
+      /* Re-Configure the buffer address and size */
+      DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t) CurrentPos;
+ 800069c:	4b2b      	ldr	r3, [pc, #172]	; (800074c <Audio_MAL_IRQHandler+0xf4>)
+ 800069e:	681b      	ldr	r3, [r3, #0]
+ 80006a0:	461a      	mov	r2, r3
+ 80006a2:	4b2b      	ldr	r3, [pc, #172]	; (8000750 <Audio_MAL_IRQHandler+0xf8>)
+ 80006a4:	609a      	str	r2, [r3, #8]
+      DMA_InitStructure.DMA_BufferSize = (uint32_t) (DMA_MAX(AudioRemSize));
+ 80006a6:	4b28      	ldr	r3, [pc, #160]	; (8000748 <Audio_MAL_IRQHandler+0xf0>)
+ 80006a8:	681b      	ldr	r3, [r3, #0]
+ 80006aa:	f64f 72ff 	movw	r2, #65535	; 0xffff
+ 80006ae:	4293      	cmp	r3, r2
+ 80006b0:	bf28      	it	cs
+ 80006b2:	4613      	movcs	r3, r2
+ 80006b4:	4a26      	ldr	r2, [pc, #152]	; (8000750 <Audio_MAL_IRQHandler+0xf8>)
+ 80006b6:	6113      	str	r3, [r2, #16]
+            
+      /* Configure the DMA Stream with the new parameters */
+      DMA_Init(AUDIO_MAL_DMA_STREAM, &DMA_InitStructure);
+ 80006b8:	4b21      	ldr	r3, [pc, #132]	; (8000740 <Audio_MAL_IRQHandler+0xe8>)
+ 80006ba:	681b      	ldr	r3, [r3, #0]
+ 80006bc:	4924      	ldr	r1, [pc, #144]	; (8000750 <Audio_MAL_IRQHandler+0xf8>)
+ 80006be:	4618      	mov	r0, r3
+ 80006c0:	f7ff fd9e 	bl	8000200 <DMA_Init>
+      
+      /* Enable the I2S DMA Stream*/
+      DMA_Cmd(AUDIO_MAL_DMA_STREAM, ENABLE);    
+ 80006c4:	4b1e      	ldr	r3, [pc, #120]	; (8000740 <Audio_MAL_IRQHandler+0xe8>)
+ 80006c6:	681b      	ldr	r3, [r3, #0]
+ 80006c8:	2101      	movs	r1, #1
+ 80006ca:	4618      	mov	r0, r3
+ 80006cc:	f7ff fdf0 	bl	80002b0 <DMA_Cmd>
+      
+      /* Update the current pointer position */
+      CurrentPos += DMA_MAX(AudioRemSize);        
+ 80006d0:	4b1e      	ldr	r3, [pc, #120]	; (800074c <Audio_MAL_IRQHandler+0xf4>)
+ 80006d2:	681a      	ldr	r2, [r3, #0]
+ 80006d4:	4b1c      	ldr	r3, [pc, #112]	; (8000748 <Audio_MAL_IRQHandler+0xf0>)
+ 80006d6:	681b      	ldr	r3, [r3, #0]
+ 80006d8:	f5b3 3f80 	cmp.w	r3, #65536	; 0x10000
+ 80006dc:	d203      	bcs.n	80006e6 <Audio_MAL_IRQHandler+0x8e>
+ 80006de:	4b1a      	ldr	r3, [pc, #104]	; (8000748 <Audio_MAL_IRQHandler+0xf0>)
+ 80006e0:	681b      	ldr	r3, [r3, #0]
+ 80006e2:	005b      	lsls	r3, r3, #1
+ 80006e4:	e000      	b.n	80006e8 <Audio_MAL_IRQHandler+0x90>
+ 80006e6:	4b1b      	ldr	r3, [pc, #108]	; (8000754 <Audio_MAL_IRQHandler+0xfc>)
+ 80006e8:	4413      	add	r3, r2
+ 80006ea:	4a18      	ldr	r2, [pc, #96]	; (800074c <Audio_MAL_IRQHandler+0xf4>)
+ 80006ec:	6013      	str	r3, [r2, #0]
+      
+      /* Update the remaining number of data to be played */
+      AudioRemSize -= DMA_MAX(AudioRemSize);   
+ 80006ee:	4b16      	ldr	r3, [pc, #88]	; (8000748 <Audio_MAL_IRQHandler+0xf0>)
+ 80006f0:	681a      	ldr	r2, [r3, #0]
+ 80006f2:	4b15      	ldr	r3, [pc, #84]	; (8000748 <Audio_MAL_IRQHandler+0xf0>)
+ 80006f4:	681b      	ldr	r3, [r3, #0]
+ 80006f6:	f64f 71ff 	movw	r1, #65535	; 0xffff
+ 80006fa:	428b      	cmp	r3, r1
+ 80006fc:	bf28      	it	cs
+ 80006fe:	460b      	movcs	r3, r1
+ 8000700:	1ad3      	subs	r3, r2, r3
+ 8000702:	4a11      	ldr	r2, [pc, #68]	; (8000748 <Audio_MAL_IRQHandler+0xf0>)
+ 8000704:	6013      	str	r3, [r2, #0]
+        /* Enable the I2S DMA Stream*/
+      DMA_Cmd(AUDIO_MAL_DMA_STREAM, ENABLE); 
+ 8000706:	4b0e      	ldr	r3, [pc, #56]	; (8000740 <Audio_MAL_IRQHandler+0xe8>)
+ 8000708:	681b      	ldr	r3, [r3, #0]
+ 800070a:	2101      	movs	r1, #1
+ 800070c:	4618      	mov	r0, r3
+ 800070e:	f7ff fdcf 	bl	80002b0 <DMA_Cmd>
+    /* Clear the Interrupt flag */
+    DMA_ClearFlag(AUDIO_MAL_DMA_STREAM, AUDIO_MAL_DMA_FLAG_TE | AUDIO_MAL_DMA_FLAG_FE | \
+                                        AUDIO_MAL_DMA_FLAG_DME);
+  }  
+#endif /* AUDIO_MAL_DMA_IT_TE_EN */
+}
+ 8000712:	e013      	b.n	800073c <Audio_MAL_IRQHandler+0xe4>
+      DMA_Cmd(AUDIO_MAL_DMA_STREAM, DISABLE);   
+ 8000714:	4b0a      	ldr	r3, [pc, #40]	; (8000740 <Audio_MAL_IRQHandler+0xe8>)
+ 8000716:	681b      	ldr	r3, [r3, #0]
+ 8000718:	2100      	movs	r1, #0
+ 800071a:	4618      	mov	r0, r3
+ 800071c:	f7ff fdc8 	bl	80002b0 <DMA_Cmd>
+      DMA_ClearFlag(AUDIO_MAL_DMA_STREAM, AUDIO_MAL_DMA_FLAG_TC);       
+ 8000720:	4b07      	ldr	r3, [pc, #28]	; (8000740 <Audio_MAL_IRQHandler+0xe8>)
+ 8000722:	681a      	ldr	r2, [r3, #0]
+ 8000724:	4b07      	ldr	r3, [pc, #28]	; (8000744 <Audio_MAL_IRQHandler+0xec>)
+ 8000726:	681b      	ldr	r3, [r3, #0]
+ 8000728:	4619      	mov	r1, r3
+ 800072a:	4610      	mov	r0, r2
+ 800072c:	f7ff fe30 	bl	8000390 <DMA_ClearFlag>
+      EVAL_AUDIO_TransferComplete_CallBack((uint32_t)CurrentPos, 0);       
+ 8000730:	4b06      	ldr	r3, [pc, #24]	; (800074c <Audio_MAL_IRQHandler+0xf4>)
+ 8000732:	681b      	ldr	r3, [r3, #0]
+ 8000734:	2100      	movs	r1, #0
+ 8000736:	4618      	mov	r0, r3
+ 8000738:	f000 f874 	bl	8000824 <EVAL_AUDIO_TransferComplete_CallBack>
+}
+ 800073c:	bf00      	nop
+ 800073e:	bd80      	pop	{r7, pc}
+ 8000740:	20000008 	.word	0x20000008
+ 8000744:	2000000c 	.word	0x2000000c
+ 8000748:	20000000 	.word	0x20000000
+ 800074c:	2000002c 	.word	0x2000002c
+ 8000750:	2000006c 	.word	0x2000006c
+ 8000754:	0001fffe 	.word	0x0001fffe
+
+08000758 <DMA1_Stream7_IRQHandler>:
+  * @brief  This function handles main I2S interrupt. 
+  * @param  None
+  * @retval 0 if correct communication, else wrong communication
+  */
+void Audio_MAL_I2S_IRQHandler(void)
+{ 
+ 8000758:	b580      	push	{r7, lr}
+ 800075a:	af00      	add	r7, sp, #0
+  Audio_MAL_IRQHandler();
+ 800075c:	f7ff ff7c 	bl	8000658 <Audio_MAL_IRQHandler>
+}
+ 8000760:	bf00      	nop
+ 8000762:	bd80      	pop	{r7, pc}
+
+08000764 <DMA1_Stream0_IRQHandler>:
+  * @brief  This function handles main DAC interrupt. 
+  * @param  None
+  * @retval 0 if correct communication, else wrong communication
+  */
+void Audio_MAL_DAC_IRQHandler(void)
+{ 
+ 8000764:	b580      	push	{r7, lr}
+ 8000766:	af00      	add	r7, sp, #0
+  Audio_MAL_IRQHandler();
+ 8000768:	f7ff ff76 	bl	8000658 <Audio_MAL_IRQHandler>
+}
+ 800076c:	bf00      	nop
+ 800076e:	bd80      	pop	{r7, pc}
+
+08000770 <SPI3_IRQHandler>:
+  * @brief  I2S interrupt management
+  * @param  None
+  * @retval None
+  */
+void Audio_I2S_IRQHandler(void)
+{
+ 8000770:	b580      	push	{r7, lr}
+ 8000772:	af00      	add	r7, sp, #0
+  /* Check on the I2S TXE flag */  
+  if (SPI_I2S_GetFlagStatus(SPI3, SPI_I2S_FLAG_TXE) != RESET)
+ 8000774:	2102      	movs	r1, #2
+ 8000776:	480d      	ldr	r0, [pc, #52]	; (80007ac <SPI3_IRQHandler+0x3c>)
+ 8000778:	f7ff ff51 	bl	800061e <SPI_I2S_GetFlagStatus>
+ 800077c:	4603      	mov	r3, r0
+ 800077e:	2b00      	cmp	r3, #0
+ 8000780:	d011      	beq.n	80007a6 <SPI3_IRQHandler+0x36>
+  { 
+    if (CurrAudioInterface == AUDIO_INTERFACE_DAC)
+ 8000782:	4b0b      	ldr	r3, [pc, #44]	; (80007b0 <SPI3_IRQHandler+0x40>)
+ 8000784:	681b      	ldr	r3, [r3, #0]
+ 8000786:	2b02      	cmp	r3, #2
+ 8000788:	d106      	bne.n	8000798 <SPI3_IRQHandler+0x28>
+    {
+      /* Wirte data to the DAC interface */
+      DAC_SetChannel1Data(DAC_Align_12b_L, EVAL_AUDIO_GetSampleCallBack()); 
+ 800078a:	f000 f856 	bl	800083a <EVAL_AUDIO_GetSampleCallBack>
+ 800078e:	4603      	mov	r3, r0
+ 8000790:	4619      	mov	r1, r3
+ 8000792:	2004      	movs	r0, #4
+ 8000794:	f7ff fd18 	bl	80001c8 <DAC_SetChannel1Data>
+    }
+    
+    /* Send dummy data on I2S to avoid the underrun condition */
+    SPI_I2S_SendData(CODEC_I2S, EVAL_AUDIO_GetSampleCallBack()); 
+ 8000798:	f000 f84f 	bl	800083a <EVAL_AUDIO_GetSampleCallBack>
+ 800079c:	4603      	mov	r3, r0
+ 800079e:	4619      	mov	r1, r3
+ 80007a0:	4802      	ldr	r0, [pc, #8]	; (80007ac <SPI3_IRQHandler+0x3c>)
+ 80007a2:	f7ff ff2d 	bl	8000600 <SPI_I2S_SendData>
+  }
+}
+ 80007a6:	bf00      	nop
+ 80007a8:	bd80      	pop	{r7, pc}
+ 80007aa:	bf00      	nop
+ 80007ac:	40003c00 	.word	0x40003c00
+ 80007b0:	20000004 	.word	0x20000004
+
+080007b4 <FLASH_Write>:
+#include "stm32f4_discovery.h"
+
+uint32_t data;
+
+void FLASH_Write(uint32_t address, uint32_t data)
+{
+ 80007b4:	b580      	push	{r7, lr}
+ 80007b6:	b082      	sub	sp, #8
+ 80007b8:	af00      	add	r7, sp, #0
+ 80007ba:	6078      	str	r0, [r7, #4]
+ 80007bc:	6039      	str	r1, [r7, #0]
+	FLASH_Unlock();
+ 80007be:	f7ff fe15 	bl	80003ec <FLASH_Unlock>
+
+	FLASH_EraseSector(FLASH_Sector_11, VoltageRange_3);
+ 80007c2:	2102      	movs	r1, #2
+ 80007c4:	2058      	movs	r0, #88	; 0x58
+ 80007c6:	f7ff fe39 	bl	800043c <FLASH_EraseSector>
+
+	FLASH_ProgramWord(address, data);
+ 80007ca:	6839      	ldr	r1, [r7, #0]
+ 80007cc:	6878      	ldr	r0, [r7, #4]
+ 80007ce:	f7ff fe95 	bl	80004fc <FLASH_ProgramWord>
+
+	FLASH_Lock();
+ 80007d2:	f7ff fe23 	bl	800041c <FLASH_Lock>
+}
+ 80007d6:	bf00      	nop
+ 80007d8:	3708      	adds	r7, #8
+ 80007da:	46bd      	mov	sp, r7
+ 80007dc:	bd80      	pop	{r7, pc}
+
+080007de <FLASH_Read>:
+
+uint32_t FLASH_Read(uint32_t address)
+{
+ 80007de:	b480      	push	{r7}
+ 80007e0:	b085      	sub	sp, #20
+ 80007e2:	af00      	add	r7, sp, #0
+ 80007e4:	6078      	str	r0, [r7, #4]
+	uint32_t myFlashData;
+
+	myFlashData = *(uint32_t*)address;
+ 80007e6:	687b      	ldr	r3, [r7, #4]
+ 80007e8:	681b      	ldr	r3, [r3, #0]
+ 80007ea:	60fb      	str	r3, [r7, #12]
+
+	return myFlashData;
+ 80007ec:	68fb      	ldr	r3, [r7, #12]
+}
+ 80007ee:	4618      	mov	r0, r3
+ 80007f0:	3714      	adds	r7, #20
+ 80007f2:	46bd      	mov	sp, r7
+ 80007f4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80007f8:	4770      	bx	lr
+	...
+
+080007fc <main>:
+
+int main(void)
+{
+ 80007fc:	b580      	push	{r7, lr}
+ 80007fe:	af00      	add	r7, sp, #0
+	//FLASH_Write(0x080E0000, 0xAA);
+	FLASH_Write(0x080EE000, 0xAA);
+ 8000800:	21aa      	movs	r1, #170	; 0xaa
+ 8000802:	4805      	ldr	r0, [pc, #20]	; (8000818 <main+0x1c>)
+ 8000804:	f7ff ffd6 	bl	80007b4 <FLASH_Write>
+  while (1)
+  {
+	  data = FLASH_Read(0x080E0000);
+ 8000808:	4804      	ldr	r0, [pc, #16]	; (800081c <main+0x20>)
+ 800080a:	f7ff ffe8 	bl	80007de <FLASH_Read>
+ 800080e:	4602      	mov	r2, r0
+ 8000810:	4b03      	ldr	r3, [pc, #12]	; (8000820 <main+0x24>)
+ 8000812:	601a      	str	r2, [r3, #0]
+ 8000814:	e7f8      	b.n	8000808 <main+0xc>
+ 8000816:	bf00      	nop
+ 8000818:	080ee000 	.word	0x080ee000
+ 800081c:	080e0000 	.word	0x080e0000
+ 8000820:	200000a8 	.word	0x200000a8
+
+08000824 <EVAL_AUDIO_TransferComplete_CallBack>:
+  }
+}
+
+void EVAL_AUDIO_TransferComplete_CallBack(uint32_t pBuffer, uint32_t Size){
+ 8000824:	b480      	push	{r7}
+ 8000826:	b083      	sub	sp, #12
+ 8000828:	af00      	add	r7, sp, #0
+ 800082a:	6078      	str	r0, [r7, #4]
+ 800082c:	6039      	str	r1, [r7, #0]
+  /* TODO, implement your code here */
+  return;
+ 800082e:	bf00      	nop
+}
+ 8000830:	370c      	adds	r7, #12
+ 8000832:	46bd      	mov	sp, r7
+ 8000834:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000838:	4770      	bx	lr
+
+0800083a <EVAL_AUDIO_GetSampleCallBack>:
+
+/*
+ * Callback used by stm324xg_eval_audio_codec.c.
+ * Refer to stm324xg_eval_audio_codec.h for more info.
+ */
+uint16_t EVAL_AUDIO_GetSampleCallBack(void){
+ 800083a:	b480      	push	{r7}
+ 800083c:	af00      	add	r7, sp, #0
+  /* TODO, implement your code here */
+  return -1;
+ 800083e:	f64f 73ff 	movw	r3, #65535	; 0xffff
+}
+ 8000842:	4618      	mov	r0, r3
+ 8000844:	46bd      	mov	sp, r7
+ 8000846:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800084a:	4770      	bx	lr
+
+0800084c <Reset_Handler>:
+
+    .section  .text.Reset_Handler
+  .weak  Reset_Handler
+  .type  Reset_Handler, %function
+Reset_Handler:  
+  ldr   sp, =_estack    /* Atollic update: set stack pointer */
+ 800084c:	f8df d034 	ldr.w	sp, [pc, #52]	; 8000884 <LoopFillZerobss+0x14>
+
+/* Copy the data segment initializers from flash to SRAM */  
+  movs  r1, #0
+ 8000850:	2100      	movs	r1, #0
+  b  LoopCopyDataInit
+ 8000852:	e003      	b.n	800085c <LoopCopyDataInit>
+
+08000854 <CopyDataInit>:
+
+CopyDataInit:
+  ldr  r3, =_sidata
+ 8000854:	4b0c      	ldr	r3, [pc, #48]	; (8000888 <LoopFillZerobss+0x18>)
+  ldr  r3, [r3, r1]
+ 8000856:	585b      	ldr	r3, [r3, r1]
+  str  r3, [r0, r1]
+ 8000858:	5043      	str	r3, [r0, r1]
+  adds  r1, r1, #4
+ 800085a:	3104      	adds	r1, #4
+
+0800085c <LoopCopyDataInit>:
+    
+LoopCopyDataInit:
+  ldr  r0, =_sdata
+ 800085c:	480b      	ldr	r0, [pc, #44]	; (800088c <LoopFillZerobss+0x1c>)
+  ldr  r3, =_edata
+ 800085e:	4b0c      	ldr	r3, [pc, #48]	; (8000890 <LoopFillZerobss+0x20>)
+  adds  r2, r0, r1
+ 8000860:	1842      	adds	r2, r0, r1
+  cmp  r2, r3
+ 8000862:	429a      	cmp	r2, r3
+  bcc  CopyDataInit
+ 8000864:	d3f6      	bcc.n	8000854 <CopyDataInit>
+  ldr  r2, =_sbss
+ 8000866:	4a0b      	ldr	r2, [pc, #44]	; (8000894 <LoopFillZerobss+0x24>)
+  b  LoopFillZerobss
+ 8000868:	e002      	b.n	8000870 <LoopFillZerobss>
+
+0800086a <FillZerobss>:
+/* Zero fill the bss segment. */  
+FillZerobss:
+  movs  r3, #0
+ 800086a:	2300      	movs	r3, #0
+  str  r3, [r2], #4
+ 800086c:	f842 3b04 	str.w	r3, [r2], #4
+
+08000870 <LoopFillZerobss>:
+    
+LoopFillZerobss:
+  ldr  r3, = _ebss
+ 8000870:	4b09      	ldr	r3, [pc, #36]	; (8000898 <LoopFillZerobss+0x28>)
+  cmp  r2, r3
+ 8000872:	429a      	cmp	r2, r3
+  bcc  FillZerobss
+ 8000874:	d3f9      	bcc.n	800086a <FillZerobss>
+
+/* Call the clock system intitialization function.*/
+  bl  SystemInit   
+ 8000876:	f000 f841 	bl	80008fc <SystemInit>
+/* Call static constructors */
+    bl __libc_init_array
+ 800087a:	f000 f8f1 	bl	8000a60 <__libc_init_array>
+/* Call the application's entry point.*/
+  bl  main
+ 800087e:	f7ff ffbd 	bl	80007fc <main>
+  bx  lr    
+ 8000882:	4770      	bx	lr
+  ldr   sp, =_estack    /* Atollic update: set stack pointer */
+ 8000884:	20020000 	.word	0x20020000
+  ldr  r3, =_sidata
+ 8000888:	08000ac8 	.word	0x08000ac8
+  ldr  r0, =_sdata
+ 800088c:	20000000 	.word	0x20000000
+  ldr  r3, =_edata
+ 8000890:	20000010 	.word	0x20000010
+  ldr  r2, =_sbss
+ 8000894:	20000010 	.word	0x20000010
+  ldr  r3, = _ebss
+ 8000898:	200000ac 	.word	0x200000ac
+
+0800089c <ADC_IRQHandler>:
+ * @retval None       
+*/
+    .section  .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b  Infinite_Loop
+ 800089c:	e7fe      	b.n	800089c <ADC_IRQHandler>
+
+0800089e <NMI_Handler>:
+  * @brief   This function handles NMI exception.
+  * @param  None
+  * @retval None
+  */
+void NMI_Handler(void)
+{
+ 800089e:	b480      	push	{r7}
+ 80008a0:	af00      	add	r7, sp, #0
+}
+ 80008a2:	bf00      	nop
+ 80008a4:	46bd      	mov	sp, r7
+ 80008a6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80008aa:	4770      	bx	lr
+
+080008ac <HardFault_Handler>:
+  * @brief  This function handles Hard Fault exception.
+  * @param  None
+  * @retval None
+  */
+void HardFault_Handler(void)
+{
+ 80008ac:	b480      	push	{r7}
+ 80008ae:	af00      	add	r7, sp, #0
+  /* Go to infinite loop when Hard Fault exception occurs */
+  while (1)
+ 80008b0:	e7fe      	b.n	80008b0 <HardFault_Handler+0x4>
+
+080008b2 <MemManage_Handler>:
+  * @brief  This function handles Memory Manage exception.
+  * @param  None
+  * @retval None
+  */
+void MemManage_Handler(void)
+{
+ 80008b2:	b480      	push	{r7}
+ 80008b4:	af00      	add	r7, sp, #0
+  /* Go to infinite loop when Memory Manage exception occurs */
+  while (1)
+ 80008b6:	e7fe      	b.n	80008b6 <MemManage_Handler+0x4>
+
+080008b8 <BusFault_Handler>:
+  * @brief  This function handles Bus Fault exception.
+  * @param  None
+  * @retval None
+  */
+void BusFault_Handler(void)
+{
+ 80008b8:	b480      	push	{r7}
+ 80008ba:	af00      	add	r7, sp, #0
+  /* Go to infinite loop when Bus Fault exception occurs */
+  while (1)
+ 80008bc:	e7fe      	b.n	80008bc <BusFault_Handler+0x4>
+
+080008be <UsageFault_Handler>:
+  * @brief  This function handles Usage Fault exception.
+  * @param  None
+  * @retval None
+  */
+void UsageFault_Handler(void)
+{
+ 80008be:	b480      	push	{r7}
+ 80008c0:	af00      	add	r7, sp, #0
+  /* Go to infinite loop when Usage Fault exception occurs */
+  while (1)
+ 80008c2:	e7fe      	b.n	80008c2 <UsageFault_Handler+0x4>
+
+080008c4 <SVC_Handler>:
+  * @brief  This function handles SVCall exception.
+  * @param  None
+  * @retval None
+  */
+void SVC_Handler(void)
+{
+ 80008c4:	b480      	push	{r7}
+ 80008c6:	af00      	add	r7, sp, #0
+}
+ 80008c8:	bf00      	nop
+ 80008ca:	46bd      	mov	sp, r7
+ 80008cc:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80008d0:	4770      	bx	lr
+
+080008d2 <DebugMon_Handler>:
+  * @brief  This function handles Debug Monitor exception.
+  * @param  None
+  * @retval None
+  */
+void DebugMon_Handler(void)
+{
+ 80008d2:	b480      	push	{r7}
+ 80008d4:	af00      	add	r7, sp, #0
+}
+ 80008d6:	bf00      	nop
+ 80008d8:	46bd      	mov	sp, r7
+ 80008da:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80008de:	4770      	bx	lr
+
+080008e0 <PendSV_Handler>:
+  * @brief  This function handles PendSVC exception.
+  * @param  None
+  * @retval None
+  */
+void PendSV_Handler(void)
+{
+ 80008e0:	b480      	push	{r7}
+ 80008e2:	af00      	add	r7, sp, #0
+}
+ 80008e4:	bf00      	nop
+ 80008e6:	46bd      	mov	sp, r7
+ 80008e8:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80008ec:	4770      	bx	lr
+
+080008ee <SysTick_Handler>:
+  * @brief  This function handles SysTick Handler.
+  * @param  None
+  * @retval None
+  */
+void SysTick_Handler(void)
+{
+ 80008ee:	b480      	push	{r7}
+ 80008f0:	af00      	add	r7, sp, #0
+/*  TimingDelay_Decrement(); */
+}
+ 80008f2:	bf00      	nop
+ 80008f4:	46bd      	mov	sp, r7
+ 80008f6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80008fa:	4770      	bx	lr
+
+080008fc <SystemInit>:
+  *         SystemFrequency variable.
+  * @param  None
+  * @retval None
+  */
+void SystemInit(void)
+{
+ 80008fc:	b580      	push	{r7, lr}
+ 80008fe:	af00      	add	r7, sp, #0
+  /* FPU settings ------------------------------------------------------------*/
+  #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+	SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
+ 8000900:	4a16      	ldr	r2, [pc, #88]	; (800095c <SystemInit+0x60>)
+ 8000902:	4b16      	ldr	r3, [pc, #88]	; (800095c <SystemInit+0x60>)
+ 8000904:	f8d3 3088 	ldr.w	r3, [r3, #136]	; 0x88
+ 8000908:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
+ 800090c:	f8c2 3088 	str.w	r3, [r2, #136]	; 0x88
+  #endif
+
+  /* Reset the RCC clock configuration to the default reset state ------------*/
+  /* Set HSION bit */
+  RCC->CR |= (uint32_t)0x00000001;
+ 8000910:	4a13      	ldr	r2, [pc, #76]	; (8000960 <SystemInit+0x64>)
+ 8000912:	4b13      	ldr	r3, [pc, #76]	; (8000960 <SystemInit+0x64>)
+ 8000914:	681b      	ldr	r3, [r3, #0]
+ 8000916:	f043 0301 	orr.w	r3, r3, #1
+ 800091a:	6013      	str	r3, [r2, #0]
+
+  /* Reset CFGR register */
+  RCC->CFGR = 0x00000000;
+ 800091c:	4b10      	ldr	r3, [pc, #64]	; (8000960 <SystemInit+0x64>)
+ 800091e:	2200      	movs	r2, #0
+ 8000920:	609a      	str	r2, [r3, #8]
+
+  /* Reset HSEON, CSSON and PLLON bits */
+  RCC->CR &= (uint32_t)0xFEF6FFFF;
+ 8000922:	4a0f      	ldr	r2, [pc, #60]	; (8000960 <SystemInit+0x64>)
+ 8000924:	4b0e      	ldr	r3, [pc, #56]	; (8000960 <SystemInit+0x64>)
+ 8000926:	681b      	ldr	r3, [r3, #0]
+ 8000928:	f023 7384 	bic.w	r3, r3, #17301504	; 0x1080000
+ 800092c:	f423 3380 	bic.w	r3, r3, #65536	; 0x10000
+ 8000930:	6013      	str	r3, [r2, #0]
+
+  /* Reset PLLCFGR register */
+  RCC->PLLCFGR = 0x24003010;
+ 8000932:	4b0b      	ldr	r3, [pc, #44]	; (8000960 <SystemInit+0x64>)
+ 8000934:	4a0b      	ldr	r2, [pc, #44]	; (8000964 <SystemInit+0x68>)
+ 8000936:	605a      	str	r2, [r3, #4]
+
+  /* Reset HSEBYP bit */
+  RCC->CR &= (uint32_t)0xFFFBFFFF;
+ 8000938:	4a09      	ldr	r2, [pc, #36]	; (8000960 <SystemInit+0x64>)
+ 800093a:	4b09      	ldr	r3, [pc, #36]	; (8000960 <SystemInit+0x64>)
+ 800093c:	681b      	ldr	r3, [r3, #0]
+ 800093e:	f423 2380 	bic.w	r3, r3, #262144	; 0x40000
+ 8000942:	6013      	str	r3, [r2, #0]
+
+  /* Disable all interrupts */
+  RCC->CIR = 0x00000000;
+ 8000944:	4b06      	ldr	r3, [pc, #24]	; (8000960 <SystemInit+0x64>)
+ 8000946:	2200      	movs	r2, #0
+ 8000948:	60da      	str	r2, [r3, #12]
+  SystemInit_ExtMemCtl(); 
+#endif /* DATA_IN_ExtSRAM */
+         
+  /* Configure the System clock source, PLL Multiplier and Divider factors, 
+     AHB/APBx prescalers and Flash settings ----------------------------------*/
+  SetSysClock();
+ 800094a:	f000 f80d 	bl	8000968 <SetSysClock>
+
+  /* Configure the Vector Table location add offset address ------------------*/
+#ifdef VECT_TAB_SRAM
+  SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
+#else
+  SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+ 800094e:	4b03      	ldr	r3, [pc, #12]	; (800095c <SystemInit+0x60>)
+ 8000950:	f04f 6200 	mov.w	r2, #134217728	; 0x8000000
+ 8000954:	609a      	str	r2, [r3, #8]
+#endif
+}
+ 8000956:	bf00      	nop
+ 8000958:	bd80      	pop	{r7, pc}
+ 800095a:	bf00      	nop
+ 800095c:	e000ed00 	.word	0xe000ed00
+ 8000960:	40023800 	.word	0x40023800
+ 8000964:	24003010 	.word	0x24003010
+
+08000968 <SetSysClock>:
+  *         is reset to the default reset state (done in SystemInit() function).   
+  * @param  None
+  * @retval None
+  */
+static void SetSysClock(void)
+{
+ 8000968:	b480      	push	{r7}
+ 800096a:	b083      	sub	sp, #12
+ 800096c:	af00      	add	r7, sp, #0
+/******************************************************************************/
+/*            PLL (clocked by HSE) used as System clock source                */
+/******************************************************************************/
+  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+ 800096e:	2300      	movs	r3, #0
+ 8000970:	607b      	str	r3, [r7, #4]
+ 8000972:	2300      	movs	r3, #0
+ 8000974:	603b      	str	r3, [r7, #0]
+  
+  /* Enable HSE */
+  RCC->CR |= ((uint32_t)RCC_CR_HSEON);
+ 8000976:	4a36      	ldr	r2, [pc, #216]	; (8000a50 <SetSysClock+0xe8>)
+ 8000978:	4b35      	ldr	r3, [pc, #212]	; (8000a50 <SetSysClock+0xe8>)
+ 800097a:	681b      	ldr	r3, [r3, #0]
+ 800097c:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
+ 8000980:	6013      	str	r3, [r2, #0]
+ 
+  /* Wait till HSE is ready and if Time out is reached exit */
+  do
+  {
+    HSEStatus = RCC->CR & RCC_CR_HSERDY;
+ 8000982:	4b33      	ldr	r3, [pc, #204]	; (8000a50 <SetSysClock+0xe8>)
+ 8000984:	681b      	ldr	r3, [r3, #0]
+ 8000986:	f403 3300 	and.w	r3, r3, #131072	; 0x20000
+ 800098a:	603b      	str	r3, [r7, #0]
+    StartUpCounter++;
+ 800098c:	687b      	ldr	r3, [r7, #4]
+ 800098e:	3301      	adds	r3, #1
+ 8000990:	607b      	str	r3, [r7, #4]
+  } while((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
+ 8000992:	683b      	ldr	r3, [r7, #0]
+ 8000994:	2b00      	cmp	r3, #0
+ 8000996:	d103      	bne.n	80009a0 <SetSysClock+0x38>
+ 8000998:	687b      	ldr	r3, [r7, #4]
+ 800099a:	f5b3 6fa0 	cmp.w	r3, #1280	; 0x500
+ 800099e:	d1f0      	bne.n	8000982 <SetSysClock+0x1a>
+
+  if ((RCC->CR & RCC_CR_HSERDY) != RESET)
+ 80009a0:	4b2b      	ldr	r3, [pc, #172]	; (8000a50 <SetSysClock+0xe8>)
+ 80009a2:	681b      	ldr	r3, [r3, #0]
+ 80009a4:	f403 3300 	and.w	r3, r3, #131072	; 0x20000
+ 80009a8:	2b00      	cmp	r3, #0
+ 80009aa:	d002      	beq.n	80009b2 <SetSysClock+0x4a>
+  {
+    HSEStatus = (uint32_t)0x01;
+ 80009ac:	2301      	movs	r3, #1
+ 80009ae:	603b      	str	r3, [r7, #0]
+ 80009b0:	e001      	b.n	80009b6 <SetSysClock+0x4e>
+  }
+  else
+  {
+    HSEStatus = (uint32_t)0x00;
+ 80009b2:	2300      	movs	r3, #0
+ 80009b4:	603b      	str	r3, [r7, #0]
+  }
+
+  if (HSEStatus == (uint32_t)0x01)
+ 80009b6:	683b      	ldr	r3, [r7, #0]
+ 80009b8:	2b01      	cmp	r3, #1
+ 80009ba:	d142      	bne.n	8000a42 <SetSysClock+0xda>
+  {
+    /* Enable high performance mode, System frequency up to 168 MHz */
+    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+ 80009bc:	4a24      	ldr	r2, [pc, #144]	; (8000a50 <SetSysClock+0xe8>)
+ 80009be:	4b24      	ldr	r3, [pc, #144]	; (8000a50 <SetSysClock+0xe8>)
+ 80009c0:	6c1b      	ldr	r3, [r3, #64]	; 0x40
+ 80009c2:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 80009c6:	6413      	str	r3, [r2, #64]	; 0x40
+    PWR->CR |= PWR_CR_PMODE;  
+ 80009c8:	4a22      	ldr	r2, [pc, #136]	; (8000a54 <SetSysClock+0xec>)
+ 80009ca:	4b22      	ldr	r3, [pc, #136]	; (8000a54 <SetSysClock+0xec>)
+ 80009cc:	681b      	ldr	r3, [r3, #0]
+ 80009ce:	f443 4340 	orr.w	r3, r3, #49152	; 0xc000
+ 80009d2:	6013      	str	r3, [r2, #0]
+
+    /* HCLK = SYSCLK / 1*/
+    RCC->CFGR |= RCC_CFGR_HPRE_DIV1;
+ 80009d4:	4a1e      	ldr	r2, [pc, #120]	; (8000a50 <SetSysClock+0xe8>)
+ 80009d6:	4b1e      	ldr	r3, [pc, #120]	; (8000a50 <SetSysClock+0xe8>)
+ 80009d8:	689b      	ldr	r3, [r3, #8]
+ 80009da:	6093      	str	r3, [r2, #8]
+      
+    /* PCLK2 = HCLK / 2*/
+    RCC->CFGR |= RCC_CFGR_PPRE2_DIV2;
+ 80009dc:	4a1c      	ldr	r2, [pc, #112]	; (8000a50 <SetSysClock+0xe8>)
+ 80009de:	4b1c      	ldr	r3, [pc, #112]	; (8000a50 <SetSysClock+0xe8>)
+ 80009e0:	689b      	ldr	r3, [r3, #8]
+ 80009e2:	f443 4300 	orr.w	r3, r3, #32768	; 0x8000
+ 80009e6:	6093      	str	r3, [r2, #8]
+    
+    /* PCLK1 = HCLK / 4*/
+    RCC->CFGR |= RCC_CFGR_PPRE1_DIV4;
+ 80009e8:	4a19      	ldr	r2, [pc, #100]	; (8000a50 <SetSysClock+0xe8>)
+ 80009ea:	4b19      	ldr	r3, [pc, #100]	; (8000a50 <SetSysClock+0xe8>)
+ 80009ec:	689b      	ldr	r3, [r3, #8]
+ 80009ee:	f443 53a0 	orr.w	r3, r3, #5120	; 0x1400
+ 80009f2:	6093      	str	r3, [r2, #8]
+
+    /* Configure the main PLL */
+    RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
+ 80009f4:	4b16      	ldr	r3, [pc, #88]	; (8000a50 <SetSysClock+0xe8>)
+ 80009f6:	4a18      	ldr	r2, [pc, #96]	; (8000a58 <SetSysClock+0xf0>)
+ 80009f8:	605a      	str	r2, [r3, #4]
+                   (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24);
+
+    /* Enable the main PLL */
+    RCC->CR |= RCC_CR_PLLON;
+ 80009fa:	4a15      	ldr	r2, [pc, #84]	; (8000a50 <SetSysClock+0xe8>)
+ 80009fc:	4b14      	ldr	r3, [pc, #80]	; (8000a50 <SetSysClock+0xe8>)
+ 80009fe:	681b      	ldr	r3, [r3, #0]
+ 8000a00:	f043 7380 	orr.w	r3, r3, #16777216	; 0x1000000
+ 8000a04:	6013      	str	r3, [r2, #0]
+
+    /* Wait till the main PLL is ready */
+    while((RCC->CR & RCC_CR_PLLRDY) == 0)
+ 8000a06:	bf00      	nop
+ 8000a08:	4b11      	ldr	r3, [pc, #68]	; (8000a50 <SetSysClock+0xe8>)
+ 8000a0a:	681b      	ldr	r3, [r3, #0]
+ 8000a0c:	f003 7300 	and.w	r3, r3, #33554432	; 0x2000000
+ 8000a10:	2b00      	cmp	r3, #0
+ 8000a12:	d0f9      	beq.n	8000a08 <SetSysClock+0xa0>
+    {
+    }
+   
+    /* Configure Flash prefetch, Instruction cache, Data cache and wait state */
+    FLASH->ACR = FLASH_ACR_ICEN |FLASH_ACR_DCEN |FLASH_ACR_LATENCY_5WS;
+ 8000a14:	4b11      	ldr	r3, [pc, #68]	; (8000a5c <SetSysClock+0xf4>)
+ 8000a16:	f240 6205 	movw	r2, #1541	; 0x605
+ 8000a1a:	601a      	str	r2, [r3, #0]
+
+    /* Select the main PLL as system clock source */
+    RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_SW));
+ 8000a1c:	4a0c      	ldr	r2, [pc, #48]	; (8000a50 <SetSysClock+0xe8>)
+ 8000a1e:	4b0c      	ldr	r3, [pc, #48]	; (8000a50 <SetSysClock+0xe8>)
+ 8000a20:	689b      	ldr	r3, [r3, #8]
+ 8000a22:	f023 0303 	bic.w	r3, r3, #3
+ 8000a26:	6093      	str	r3, [r2, #8]
+    RCC->CFGR |= RCC_CFGR_SW_PLL;
+ 8000a28:	4a09      	ldr	r2, [pc, #36]	; (8000a50 <SetSysClock+0xe8>)
+ 8000a2a:	4b09      	ldr	r3, [pc, #36]	; (8000a50 <SetSysClock+0xe8>)
+ 8000a2c:	689b      	ldr	r3, [r3, #8]
+ 8000a2e:	f043 0302 	orr.w	r3, r3, #2
+ 8000a32:	6093      	str	r3, [r2, #8]
+
+    /* Wait till the main PLL is used as system clock source */
+    while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL);
+ 8000a34:	bf00      	nop
+ 8000a36:	4b06      	ldr	r3, [pc, #24]	; (8000a50 <SetSysClock+0xe8>)
+ 8000a38:	689b      	ldr	r3, [r3, #8]
+ 8000a3a:	f003 030c 	and.w	r3, r3, #12
+ 8000a3e:	2b08      	cmp	r3, #8
+ 8000a40:	d1f9      	bne.n	8000a36 <SetSysClock+0xce>
+  else
+  { /* If HSE fails to start-up, the application will have wrong clock
+         configuration. User can add here some code to deal with this error */
+  }
+
+}
+ 8000a42:	bf00      	nop
+ 8000a44:	370c      	adds	r7, #12
+ 8000a46:	46bd      	mov	sp, r7
+ 8000a48:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000a4c:	4770      	bx	lr
+ 8000a4e:	bf00      	nop
+ 8000a50:	40023800 	.word	0x40023800
+ 8000a54:	40007000 	.word	0x40007000
+ 8000a58:	07405408 	.word	0x07405408
+ 8000a5c:	40023c00 	.word	0x40023c00
+
+08000a60 <__libc_init_array>:
+ 8000a60:	b570      	push	{r4, r5, r6, lr}
+ 8000a62:	4e0d      	ldr	r6, [pc, #52]	; (8000a98 <__libc_init_array+0x38>)
+ 8000a64:	4c0d      	ldr	r4, [pc, #52]	; (8000a9c <__libc_init_array+0x3c>)
+ 8000a66:	1ba4      	subs	r4, r4, r6
+ 8000a68:	10a4      	asrs	r4, r4, #2
+ 8000a6a:	2500      	movs	r5, #0
+ 8000a6c:	42a5      	cmp	r5, r4
+ 8000a6e:	d109      	bne.n	8000a84 <__libc_init_array+0x24>
+ 8000a70:	4e0b      	ldr	r6, [pc, #44]	; (8000aa0 <__libc_init_array+0x40>)
+ 8000a72:	4c0c      	ldr	r4, [pc, #48]	; (8000aa4 <__libc_init_array+0x44>)
+ 8000a74:	f000 f818 	bl	8000aa8 <_init>
+ 8000a78:	1ba4      	subs	r4, r4, r6
+ 8000a7a:	10a4      	asrs	r4, r4, #2
+ 8000a7c:	2500      	movs	r5, #0
+ 8000a7e:	42a5      	cmp	r5, r4
+ 8000a80:	d105      	bne.n	8000a8e <__libc_init_array+0x2e>
+ 8000a82:	bd70      	pop	{r4, r5, r6, pc}
+ 8000a84:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8000a88:	4798      	blx	r3
+ 8000a8a:	3501      	adds	r5, #1
+ 8000a8c:	e7ee      	b.n	8000a6c <__libc_init_array+0xc>
+ 8000a8e:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8000a92:	4798      	blx	r3
+ 8000a94:	3501      	adds	r5, #1
+ 8000a96:	e7f2      	b.n	8000a7e <__libc_init_array+0x1e>
+ 8000a98:	08000ac0 	.word	0x08000ac0
+ 8000a9c:	08000ac0 	.word	0x08000ac0
+ 8000aa0:	08000ac0 	.word	0x08000ac0
+ 8000aa4:	08000ac4 	.word	0x08000ac4
+
+08000aa8 <_init>:
+ 8000aa8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000aaa:	bf00      	nop
+ 8000aac:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000aae:	bc08      	pop	{r3}
+ 8000ab0:	469e      	mov	lr, r3
+ 8000ab2:	4770      	bx	lr
+
+08000ab4 <_fini>:
+ 8000ab4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000ab6:	bf00      	nop
+ 8000ab8:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000aba:	bc08      	pop	{r3}
+ 8000abc:	469e      	mov	lr, r3
+ 8000abe:	4770      	bx	lr

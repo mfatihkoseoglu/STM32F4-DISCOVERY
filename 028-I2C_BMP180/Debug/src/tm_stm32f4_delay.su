@@ -1,0 +1,12 @@
+core_cm4.h:1535:22:NVIC_SetPriority	16	static
+core_cm4.h:1662:26:SysTick_Config	16	static
+tm_stm32f4_delay.c:25:6:Delay	16	static
+tm_stm32f4_delay.c:31:6:Delayms	16	static
+tm_stm32f4_delay.c:48:6:SysTick_Handler	4	static
+tm_stm32f4_delay.c:59:6:TM_DELAY_Init	8	static
+tm_stm32f4_delay.c:73:10:TM_DELAY_Time	4	static
+tm_stm32f4_delay.c:77:10:TM_DELAY_Time2	4	static
+tm_stm32f4_delay.c:81:6:TM_DELAY_SetTime	16	static
+tm_stm32f4_delay.c:85:6:TM_DELAY_SetTime2	16	static
+tm_stm32f4_delay.c:89:6:TM_DELAY_EnableSystick	4	static
+tm_stm32f4_delay.c:98:6:TM_DELAY_DisableSystick	4	static

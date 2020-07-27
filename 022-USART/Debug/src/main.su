@@ -1,0 +1,6 @@
+main.c:13:6:config	8	static
+main.c:62:9:Read_ADC	8	static
+main.c:73:6:USART_Puts	16	static
+main.c:83:5:main	8	static
+main.c:94:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:100:10:EVAL_AUDIO_GetSampleCallBack	4	static

@@ -1,0 +1,7 @@
+main.c:9:6:config	8	static
+main.c:37:6:gpioconfig	8	static
+main.c:50:6:I2C_Write	16	static
+main.c:69:6:delay	16	static
+main.c:77:5:main	8	static
+main.c:126:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:132:10:EVAL_AUDIO_GetSampleCallBack	4	static

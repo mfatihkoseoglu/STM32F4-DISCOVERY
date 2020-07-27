@@ -1,0 +1,6 @@
+main.c:9:6:config	8	static
+main.c:48:6:delay	16	static
+main.c:56:6:EXTI0_IRQHandler	8	static
+main.c:69:5:main	8	static
+main.c:80:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:86:10:EVAL_AUDIO_GetSampleCallBack	4	static

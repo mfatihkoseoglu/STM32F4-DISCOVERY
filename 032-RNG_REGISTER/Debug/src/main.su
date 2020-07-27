@@ -1,0 +1,7 @@
+main.c:6:6:RCC_Config	16	static
+main.c:23:6:GPIO_Config	4	static
+main.c:30:6:RNG_Config	4	static
+main.c:36:6:delay	16	static
+main.c:41:5:main	8	static
+main.c:59:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:65:10:EVAL_AUDIO_GetSampleCallBack	4	static

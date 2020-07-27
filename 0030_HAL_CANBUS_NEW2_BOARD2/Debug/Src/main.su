@@ -1,0 +1,6 @@
+main.c:149:6:SystemClock_Config	96	static
+main.c:260:6:LED_Switch	8	static
+main.c:288:6:CAN_FilterConfig	48	static
+main.c:80:5:main	48	static
+main.c:306:6:HAL_CAN_RxCpltCallback	8	static
+main.c:324:6:Error_Handler	0	static

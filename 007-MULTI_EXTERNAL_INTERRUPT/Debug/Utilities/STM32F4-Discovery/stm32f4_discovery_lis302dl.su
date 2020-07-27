@@ -1,0 +1,12 @@
+stm32f4_discovery_lis302dl.c:105:6:LIS302DL_Init	24	static
+stm32f4_discovery_lis302dl.c:127:6:LIS302DL_FilterConfig	24	static
+stm32f4_discovery_lis302dl.c:153:6:LIS302DL_InterruptConfig	24	static
+stm32f4_discovery_lis302dl.c:177:6:LIS302DL_LowpowerCmd	24	static
+stm32f4_discovery_lis302dl.c:200:6:LIS302DL_DataRateCmd	24	static
+stm32f4_discovery_lis302dl.c:223:6:LIS302DL_FullScaleCmd	24	static
+stm32f4_discovery_lis302dl.c:243:6:LIS302DL_RebootCmd	16	static
+stm32f4_discovery_lis302dl.c:263:6:LIS302DL_Write	16	static
+stm32f4_discovery_lis302dl.c:297:6:LIS302DL_Read	16	static
+stm32f4_discovery_lis302dl.c:332:6:LIS302DL_ReadACC	32	static
+stm32f4_discovery_lis302dl.c:368:13:LIS302DL_LowLevel_Init	40	static
+stm32f4_discovery_lis302dl.c:453:16:LIS302DL_SendByte	16	static

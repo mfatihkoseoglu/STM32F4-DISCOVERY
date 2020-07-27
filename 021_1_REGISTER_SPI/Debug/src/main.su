@@ -1,0 +1,9 @@
+main.c:7:6:RCC_Config	4	static
+main.c:24:6:GPIO_Config	4	static
+main.c:33:7:SPI_Transaction	32	static
+main.c:58:6:SPI_Write	16	static
+main.c:63:6:SPI_Read	24	static
+main.c:69:6:delay	16	static
+main.c:74:5:main	24	static
+main.c:94:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:103:10:EVAL_AUDIO_GetSampleCallBack	4	static

@@ -1,0 +1,9 @@
+tiny_printf.c:80:6:ts_itoa	32	static
+tiny_printf.c:104:5:ts_formatstring	40	static
+tiny_printf.c:170:5:ts_formatlength	24	static
+stdio.h:302:5:siprintf	28	static
+stdio.h:294:5:fiprintf	52	dynamic
+stdio.h:298:5:iprintf	48	dynamic
+stdio.h:215:5:fputs	32	static
+stdio.h:221:5:puts	32	static
+stdio.h:224:8:fwrite	24	static

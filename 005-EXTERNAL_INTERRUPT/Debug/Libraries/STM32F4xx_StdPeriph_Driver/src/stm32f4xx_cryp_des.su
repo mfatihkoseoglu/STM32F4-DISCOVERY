@@ -1,0 +1,2 @@
+stm32f4xx_cryp_des.c:99:13:CRYP_DES_ECB	128	static
+stm32f4xx_cryp_des.c:200:13:CRYP_DES_CBC	160	static

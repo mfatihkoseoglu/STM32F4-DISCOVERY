@@ -1,0 +1,6 @@
+tm_stm32f4_bmp180.c:40:20:TM_BMP180_Init	48	static
+tm_stm32f4_bmp180.c:76:20:TM_BMP180_StartTemperature	16	static
+tm_stm32f4_bmp180.c:89:20:TM_BMP180_ReadTemperature	32	static
+tm_stm32f4_bmp180.c:115:20:TM_BMP180_StartPressure	24	static
+tm_stm32f4_bmp180.c:153:20:TM_BMP180_ReadPressure	40	static
+tm_stm32f4_bmp180.c:198:10:TM_BMP180_GetPressureAtSeaLevel	32	static

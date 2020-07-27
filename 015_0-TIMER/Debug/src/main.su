@@ -1,0 +1,5 @@
+main.c:8:6:config	8	static
+main.c:41:6:TIM4_IRQHandler	8	static
+main.c:50:5:main	8	static
+main.c:59:6:EVAL_AUDIO_TransferComplete_CallBack	16	static
+main.c:65:10:EVAL_AUDIO_GetSampleCallBack	4	static

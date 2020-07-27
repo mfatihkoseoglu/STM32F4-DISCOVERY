@@ -1,0 +1,28 @@
+Project: 023-USART_SEND_DATA
+Converter: Atollic TrueSTUDIO project converter
+Date: 20190906
+
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.debug.toolchain.as
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.debug.toolchain.gcc
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.debug.toolchain.ld
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.debug.toolchain.gpp
+Unknown value type "" for id com.atollic.truestudio.gpp.optimization.fno_rtti on tool com.atollic.truestudio.exe.debug.toolchain.gpp
+Unknown value type "" for id com.atollic.truestudio.gpp.optimization.fno_exceptions on tool com.atollic.truestudio.exe.debug.toolchain.gpp
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.debug.toolchain.ldcc
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.release.toolchain.as
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.release.toolchain.gcc
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.release.toolchain.ld
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.release.toolchain.gpp
+Unknown value type "" for id com.atollic.truestudio.gpp.optimization.fno_rtti on tool com.atollic.truestudio.exe.release.toolchain.gpp
+Unknown value type "" for id com.atollic.truestudio.gpp.optimization.fno_exceptions on tool com.atollic.truestudio.exe.release.toolchain.gpp
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
+Unknown value type "" for id com.atollic.truestudio.common_options.target.endianess on tool com.atollic.truestudio.exe.release.toolchain.ldcc
+Option com.atollic.truestudio.common_options.target.instr_set is no longer supported
