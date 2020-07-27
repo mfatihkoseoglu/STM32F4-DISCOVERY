@@ -1,0 +1,11 @@
+main.c:92:5:main	16	static
+main.c:172:6:SystemClock_Config	88	static
+main.c:216:13:MX_I2C1_Init	8	static
+main.c:250:13:MX_USART2_UART_Init	8	static
+main.c:281:13:MX_DMA_Init	16	static
+main.c:299:13:MX_GPIO_Init	16	static
+main.c:310:6:Scan_I2C_Address	8	static
+main.c:322:6:ADXL_Write	32	static
+main.c:330:6:ADXL_Read	32	static
+main.c:341:6:ADXL_Init	8	static
+main.c:363:6:Error_Handler	4	static

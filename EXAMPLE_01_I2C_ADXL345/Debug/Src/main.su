@@ -1,0 +1,9 @@
+main.c:83:5:main	16	static
+main.c:147:6:SystemClock_Config	88	static
+main.c:190:13:MX_I2C1_Init	8	static
+main.c:224:13:MX_GPIO_Init	40	static
+main.c:247:6:Scan_I2C_Address	8	static
+main.c:259:6:ADXL_Write	32	static
+main.c:267:6:ADXL_Read	32	static
+main.c:278:6:ADXL_Init	8	static
+main.c:300:6:Error_Handler	4	static
