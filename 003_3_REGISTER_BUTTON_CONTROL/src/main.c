@@ -20,7 +20,6 @@ void GPIO_Config()
 	RCC->CFGR |= 0x00000000;	// AHB Prescaler = 1
 	RCC->CFGR |= 0x00080000;	// APB2 Prescaler = 2
 	RCC->CFGR |= 0x00001400;	// APB1 Prescaler = 4
-	RCC->CIR |= 0x00080000;		// HSERDY Flag clear
 	RCC->CIR |= 0x00800000;		// CSS Flag clear
 
 	RCC->AHB1ENR = 0x00000009;	// GPIOA ve GPIOD aktif
