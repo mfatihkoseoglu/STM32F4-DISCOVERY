@@ -10,21 +10,20 @@ void RCC_Config()
 	while(!(RCC->CR & 0x00020000));			// HSEON Ready Flag wait
 	RCC->CR |= 0x00080000;					// CSS Enable
 	RCC->CR |= 0x01000000;					// PLL ON
-	RCC->PLLCFGR |= 0x00400000;				// PLL e HSE seÁtik
+	RCC->PLLCFGR |= 0x00400000;				// PLL e HSE se√ßtik
 	RCC->PLLCFGR |= 0x00000004;				// PLL M = 4
 	RCC->PLLCFGR |= 0x00005A00;				// Pll N = 168
 	RCC->PLLCFGR |= 0x00000000;				// PLL p = 2
 	RCC->CFGR |= 0x00000000;				// AHB Prescaler = 1
 	RCC->CFGR |= 0x00080000;				// APB2 Prescaler = 2
 	RCC->CFGR |= 0x00001400;				// APB1 Prescaler = 4
-	RCC->CIR |= 0x00080000;					// HSERDY Flag clear
 	RCC->CIR |= 0x00800000;					// CSS Flag clear
 }
 
 void GPIO_Config()
 {
 	RCC->AHB1ENR  |=0x00000003;	// B portu saati aktif edildi
-	GPIOB->AFR[1] |=0x00004400; // Alternatif fonksiyonda PB10-SCL PB11-SDA seÁiliyor HARD sayfa 75 I2C2
+	GPIOB->AFR[1] |=0x00004400; // Alternatif fonksiyonda PB10-SCL PB11-SDA se√ßiliyor HARD sayfa 75 I2C2
 	GPIOB->MODER  |=0x00A00000;	// AF secildi
 	GPIOB->OTYPER |=0x00000C00; //Open-drain secildi
 }
@@ -41,51 +40,51 @@ void I2C_Config()
 void I2C_Write(uint8_t address, uint8_t data)
 {
 /*
-	I2C2->CR1 |= 0x0100;                // Start bit gˆnderilir
-    while(!(I2C2->SR1 & 0x0001));   	// Start bitinin gˆnderilmesini bekle
-    I2C2->DR = 0xd0;                    // Slave adresini ve yazma bitini gˆnder.
-    while(!(I2C2->SR1 & 0x0002));  		// Adresin gˆnderilmesini bekle
-    uint8_t Status2 = I2C2->SR2;        // Flag temizlemek iÁin SR2 registerí˝ oku
-    I2C2->DR = address;                 // chip adresini ve yazma bitini gˆnder.
-    while(!(I2C2->SR1 & 0x0080));   	// DR registerí˝n bo˛almas˝n˝ bekle
-    I2C2->DR = data;                    // Gˆnderilecek veriyi DR registería yaz
-    while(!(I2C2->SR1 & 0x0080));   	// DR registerí˝n bo˛almas˝n˝ bekle
-    while(!(I2C2->SR1 & 0x0200));  		// Byteí˝n gˆnderilmesini bekle
-    I2C2->CR1 |= 0x0200;      			// Stop biti gˆnder
+	I2C2->CR1 |= 0x0100;                // Start bit g√∂nderilir
+    while(!(I2C2->SR1 & 0x0001));   	// Start bitinin g√∂nderilmesini bekle
+    I2C2->DR = 0xd0;                    // Slave adresini ve yazma bitini g√∂nder.
+    while(!(I2C2->SR1 & 0x0002));  		// Adresin g√∂nderilmesini bekle
+    uint8_t Status2 = I2C2->SR2;        // Flag temizlemek i√ßin SR2 register‚Äôƒ± oku
+    I2C2->DR = address;                 // chip adresini ve yazma bitini g√∂nder.
+    while(!(I2C2->SR1 & 0x0080));   	// DR register‚Äôƒ±n bo≈üalmasƒ±nƒ± bekle
+    I2C2->DR = data;                    // G√∂nderilecek veriyi DR register‚Äôa yaz
+    while(!(I2C2->SR1 & 0x0080));   	// DR register‚Äôƒ±n bo≈üalmasƒ±nƒ± bekle
+    while(!(I2C2->SR1 & 0x0200));  		// Byte‚Äôƒ±n g√∂nderilmesini bekle
+    I2C2->CR1 |= 0x0200;      			// Stop biti g√∂nder
 */
-	I2C2->CR1 |= 0x0100; 		   // START BIT'I Gˆnder
+	I2C2->CR1 |= 0x0100; 		   // START BIT'I G√∂nder
 	while(!(I2C2->SR1 & 0x0001));  // Start kosulunu bekle (SB=1)
 	I2C2->DR = 0x4E; 	   		   // Slave adresi. okuma yazma komutu
-	while(!(I2C2->SR1 & 0x0002));  // adres gˆnderimini bekle (ADDR=1)
+	while(!(I2C2->SR1 & 0x0002));  // adres g√∂nderimini bekle (ADDR=1)
     while(!(I2C2->SR2 & 0x0001));  //MSL
 	//I2C2->DR = address;		   // Cipin adresi
 	while(!(I2C2->SR1 & 0x0080));  // TxE Data Register'in bosalmasini bekle(Txe)
 	I2C2->DR = data;			   //Veriyi Yaz
 	while(!(I2C2->SR1 & 0x0080));  // TxE Data Register'in bosalmasini bekle(Txe)
-	while(!(I2C2->SR1 & 0x0004));  // Verinin gˆnderimini bekle (BTF)
-	I2C2->CR1 |= 0x0200;           // STOP biti gˆnder
+	while(!(I2C2->SR1 & 0x0004));  // Verinin g√∂nderimini bekle (BTF)
+	I2C2->CR1 |= 0x0200;           // STOP biti g√∂nder
 }
 
 uint8_t I2C_Read(uint8_t address)
 {
-    I2C2 -> CR1 |= 0x0100;                 // Start bit gˆnderilir
-    while (!(I2C2 -> SR1 & 0x0001));  	   // Start bitinin gˆnderilmesini bekle (SB = 1)
-    I2C2 -> DR = 0xd0;                     // Slave adresini gˆnder. (LSB = 1)
-    while (!(I2C2 -> SR1 & 0x0002));       // Adresin gˆnderilmesini bekle (ADDR = 1)
-    int Status2 = I2C2 -> SR2;             // Flag temizlemek iÁin SR2 registerí˝ oku
-    I2C2 -> DR = Adr;                      // chip adresini  gˆnder
-    while (!(I2C2 -> SR1 & 0x0080));	   // DR registerí˝n bo˛almas˝n˝ bekle
-    while (!(I2C2 -> SR1 & 0x0004));   	   // Byteí˝n gˆnderilmesini bekle
+    I2C2 -> CR1 |= 0x0100;                 // Start bit g√∂nderilir
+    while (!(I2C2 -> SR1 & 0x0001));  	   // Start bitinin g√∂nderilmesini bekle (SB = 1)
+    I2C2 -> DR = 0xd0;                     // Slave adresini g√∂nder. (LSB = 1)
+    while (!(I2C2 -> SR1 & 0x0002));       // Adresin g√∂nderilmesini bekle (ADDR = 1)
+    int Status2 = I2C2 -> SR2;             // Flag temizlemek i√ßin SR2 register‚Äôƒ± oku
+    I2C2 -> DR = Adr;                      // chip adresini  g√∂nder
+    while (!(I2C2 -> SR1 & 0x0080));	   // DR register‚Äôƒ±n bo≈üalmasƒ±nƒ± bekle
+    while (!(I2C2 -> SR1 & 0x0004));   	   // Byte‚Äôƒ±n g√∂nderilmesini bekle
 
-    I2C2 -> CR1 |= 0x0100;                 // Start bit gˆnderilir
-    while (!(I2C2 -> SR1 & 0x0001));	   // Start bitinin gˆnderilmesini bekle (SB = 1)
-    I2C2 -> DR = 0xd1;                     // Slave adresini gˆnder. (LSB = 0)
-    while (!(I2C2->SR1 & 0x0002));		   // Adresin gˆnderilmesini bekle (ADDR = 1)
-    int Status4 = I2C2 -> SR2;             // Flag temizlemek iÁin SR2 registerí˝ oku
-    while (!(I2C2 -> SR1 & 0x0040)); 	   // byte al˝nana kadar bekle
-    I2C2 -> CR1 |= 0x0200;                 // Stop biti gˆnder
+    I2C2 -> CR1 |= 0x0100;                 // Start bit g√∂nderilir
+    while (!(I2C2 -> SR1 & 0x0001));	   // Start bitinin g√∂nderilmesini bekle (SB = 1)
+    I2C2 -> DR = 0xd1;                     // Slave adresini g√∂nder. (LSB = 0)
+    while (!(I2C2->SR1 & 0x0002));		   // Adresin g√∂nderilmesini bekle (ADDR = 1)
+    int Status4 = I2C2 -> SR2;             // Flag temizlemek i√ßin SR2 register‚Äôƒ± oku
+    while (!(I2C2 -> SR1 & 0x0040)); 	   // byte alƒ±nana kadar bekle
+    I2C2 -> CR1 |= 0x0200;                 // Stop biti g√∂nder
 
-     return ((char)I2C2 -> DR);            // okunan byte ile geri dˆn
+     return ((char)I2C2 -> DR);            // okunan byte ile geri d√∂n
 }
 
 void delay(uint32_t time)
